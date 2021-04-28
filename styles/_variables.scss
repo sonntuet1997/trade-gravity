@@ -1,0 +1,72 @@
+$font-euclid-medium: 'EuclidCircularA-Medium';
+$font-euclid-semibold: 'EuclidCircularA-SemiBold';
+$font-euclid-regular: 'EuclidCircularA-Regular';
+$font-euclid-bold: 'EuclidCircularA-Bold';
+
+@font-face {
+  font-family: $font-euclid-medium;
+  src: url('/fonts/EuclidCircularA-Medium.ttf');
+}
+
+@font-face {
+  font-family: $font-euclid-semibold;
+  src: url('/fonts/EuclidCircularA-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: $font-euclid-bold;
+  src: url('/fonts/EuclidCircularA-Bold.ttf');
+}
+
+@font-face {
+  font-family: $font-euclid-regular;
+  src: url('/fonts/EuclidCircularA-Regular.ttf');
+}
+
+@font-face {
+  font-family: $font-euclid-bold;
+  src: url('/fonts/EuclidCircularA-Bold.ttf');
+}
+
+$f1: rem(60px);
+$f2: rem(48px);
+$f3: rem(36px);
+$f4: 32px;
+$f5: rem(24px);
+$f6: 20px;
+$f7: 1rem;
+$f8: 1rem;
+$f9: rem(13px);
+$f10: 12px;
+$f11: rem(10px);
+$f12: rem(8px);
+$f13: rem(7px);
+$f14: 2.625rem;
+$f15: 18px;
+$f16: 14px;
+$f17: 42px;
+$f18: 16px;
+
+$fw-light: 300;
+$fw-normal: 400;
+$fw-medium: 500;
+$fw-semiBold: 600;
+$fw-bold: 700;
+$fw-black: 900;
+
+$color-red: #dc3a61;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-brown: #666666;
+$color-gray: #999999;
+$color-line: #e4e4e4;
+$color-bg: #eeeeee;
+$color-gray-bg: #f3f3f3;
+$color-light-gray-bg: #f4f4f4;
+$color-gray2: #807878;
+
+$base-size: 16px;
+
+@function rem($size, $context: $base-size) {
+  @return $size / $base-size * 1rem;
+}
