@@ -1,6 +1,12 @@
 {
-  "welcome-message": "ようこそ",
-  "edit-message": "編集から始めましょう",
-  "button": "ボタン",
-  "content": "速い茶色のキツネは怠惰な犬を飛び越えます"
+  "hello": "挨拶",
+  "greet": "挨拶, {{name}}!",
+  "world": "世界",
+  "documentation": "ドキュメンテーション",
+  "language": {
+    "ja": "Japan",
+    "en": "English"
+  },
+  "number": "数",
+  "button": "ボタン"
 }

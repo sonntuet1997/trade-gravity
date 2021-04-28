@@ -1,10 +1,17 @@
-const { i18n } = require('./next-i18next.config')
-const path = require('path')
+const withPlugins = require("next-compose-plugins");
 
-module.exports = {
-  i18n,
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')]
+const { nextI18NextRewrites } = require("next-i18next/rewrites");
+
+const localeSubpaths = {
+  ja: "ja",
+  en: "en",
+};
+
+const config = {
+  rewrites: async () => nextI18NextRewrites(localeSubpaths),
+  publicRuntimeConfig: {
+    localeSubpaths,
   },
-  target: 'serverless'
-}
+};
+
+module.exports = withPlugins([], config);
