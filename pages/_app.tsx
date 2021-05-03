@@ -5,7 +5,7 @@ import '@styles/global.scss'
 import '../src/components/scss/main.scss'
 import { Provider } from 'react-redux'
 import store from '@redux/store'
-import { appWithTranslation } from '@i18n'
+import {withTranslation} from '@i18n'
 
 function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
   return (
@@ -14,5 +14,4 @@ function MyApp ({ Component, pageProps }: AppProps): JSX.Element {
     </Provider>
   )
 }
-
-export default appWithTranslation(MyApp)
+export default withTranslation(['app'])(MyApp)
