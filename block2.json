@@ -1,0 +1,1701 @@
+{
+  "height": "78479",
+  "txs_results": [
+    {
+      "code": 0,
+      "data": "\n\u0016\n\u0014deposit_within_batch",
+      "log": "[{\"events\":[{\"type\":\"deposit_within_batch\",\"attributes\":[{\"key\":\"pool_id\",\"value\":\"40\"},{\"key\":\"batch_index\",\"value\":\"3259\"},{\"key\":\"msg_index\",\"value\":\"961\"},{\"key\":\"deposit_coins\",\"value\":\"60000000ucom,59041200ungm\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"deposit_within_batch\"},{\"key\":\"sender\",\"value\":\"cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp\"},{\"key\":\"module\",\"value\":\"liquidity\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962\"},{\"key\":\"sender\",\"value\":\"cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp\"},{\"key\":\"amount\",\"value\":\"60000000ucom,59041200ungm\"}]}]}]",
+      "info": "",
+      "gas_wanted": "300000",
+      "gas_used": "91030",
+      "events": [
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "300000uatom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "deposit_within_batch",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "60000000ucom,59041200ungm",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "module",
+              "value": "liquidity",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "deposit_within_batch",
+          "attributes": [
+            {
+              "key": "pool_id",
+              "value": "40",
+              "index": true
+            },
+            {
+              "key": "batch_index",
+              "value": "3259",
+              "index": true
+            },
+            {
+              "key": "msg_index",
+              "value": "961",
+              "index": true
+            },
+            {
+              "key": "deposit_coins",
+              "value": "60000000ucom,59041200ungm",
+              "index": true
+            }
+          ]
+        }
+      ],
+      "codespace": ""
+    },
+    {
+      "code": 0,
+      "data": "\n\u0016\n\u0014deposit_within_batch",
+      "log": "[{\"events\":[{\"type\":\"deposit_within_batch\",\"attributes\":[{\"key\":\"pool_id\",\"value\":\"45\"},{\"key\":\"batch_index\",\"value\":\"2572\"},{\"key\":\"msg_index\",\"value\":\"697\"},{\"key\":\"deposit_coins\",\"value\":\"568199400uakt,2500000000ucom\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"deposit_within_batch\"},{\"key\":\"sender\",\"value\":\"cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5\"},{\"key\":\"module\",\"value\":\"liquidity\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962\"},{\"key\":\"sender\",\"value\":\"cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5\"},{\"key\":\"amount\",\"value\":\"568199400uakt,2500000000ucom\"}]}]}]",
+      "info": "",
+      "gas_wanted": "300000",
+      "gas_used": "91370",
+      "events": [
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "300000uatom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "deposit_within_batch",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "568199400uakt,2500000000ucom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "module",
+              "value": "liquidity",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "deposit_within_batch",
+          "attributes": [
+            {
+              "key": "pool_id",
+              "value": "45",
+              "index": true
+            },
+            {
+              "key": "batch_index",
+              "value": "2572",
+              "index": true
+            },
+            {
+              "key": "msg_index",
+              "value": "697",
+              "index": true
+            },
+            {
+              "key": "deposit_coins",
+              "value": "568199400uakt,2500000000ucom",
+              "index": true
+            }
+          ]
+        }
+      ],
+      "codespace": ""
+    },
+    {
+      "code": 0,
+      "data": "\n\u0013\n\u0011swap_within_batch",
+      "log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"swap_within_batch\"},{\"key\":\"sender\",\"value\":\"cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f\"},{\"key\":\"module\",\"value\":\"liquidity\"}]},{\"type\":\"swap_within_batch\",\"attributes\":[{\"key\":\"pool_id\",\"value\":\"11\"},{\"key\":\"batch_index\",\"value\":\"14007\"},{\"key\":\"msg_index\",\"value\":\"9544\"},{\"key\":\"swap_type_id\",\"value\":\"1\"},{\"key\":\"offer_coin_denom\",\"value\":\"uatom\"},{\"key\":\"offer_coin_amount\",\"value\":\"1997000\"},{\"key\":\"offer_coin_fee_amount\",\"value\":\"2995\"},{\"key\":\"demand_coin_denom\",\"value\":\"ucom\"},{\"key\":\"order_price\",\"value\":\"0.041874842420790627\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962\"},{\"key\":\"sender\",\"value\":\"cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f\"},{\"key\":\"amount\",\"value\":\"1999995uatom\"}]}]}]",
+      "info": "",
+      "gas_wanted": "300000",
+      "gas_used": "96052",
+      "events": [
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "300000uatom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "swap_within_batch",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "1999995uatom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "module",
+              "value": "liquidity",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "swap_within_batch",
+          "attributes": [
+            {
+              "key": "pool_id",
+              "value": "11",
+              "index": true
+            },
+            {
+              "key": "batch_index",
+              "value": "14007",
+              "index": true
+            },
+            {
+              "key": "msg_index",
+              "value": "9544",
+              "index": true
+            },
+            {
+              "key": "swap_type_id",
+              "value": "1",
+              "index": true
+            },
+            {
+              "key": "offer_coin_denom",
+              "value": "uatom",
+              "index": true
+            },
+            {
+              "key": "offer_coin_amount",
+              "value": "1997000",
+              "index": true
+            },
+            {
+              "key": "offer_coin_fee_amount",
+              "value": "2995",
+              "index": true
+            },
+            {
+              "key": "demand_coin_denom",
+              "value": "ucom",
+              "index": true
+            },
+            {
+              "key": "order_price",
+              "value": "0.041874842420790627",
+              "index": true
+            }
+          ]
+        }
+      ],
+      "codespace": ""
+    },
+    {
+      "code": 0,
+      "data": "\n\u0016\n\u0014deposit_within_batch",
+      "log": "[{\"events\":[{\"type\":\"deposit_within_batch\",\"attributes\":[{\"key\":\"pool_id\",\"value\":\"18\"},{\"key\":\"batch_index\",\"value\":\"13293\"},{\"key\":\"msg_index\",\"value\":\"3349\"},{\"key\":\"deposit_coins\",\"value\":\"6381900uatom,100000ugcyb\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"deposit_within_batch\"},{\"key\":\"sender\",\"value\":\"cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g\"},{\"key\":\"module\",\"value\":\"liquidity\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962\"},{\"key\":\"sender\",\"value\":\"cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g\"},{\"key\":\"amount\",\"value\":\"6381900uatom,100000ugcyb\"}]}]}]",
+      "info": "",
+      "gas_wanted": "300000",
+      "gas_used": "90984",
+      "events": [
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "300000uatom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "deposit_within_batch",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "6381900uatom,100000ugcyb",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "module",
+              "value": "liquidity",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "deposit_within_batch",
+          "attributes": [
+            {
+              "key": "pool_id",
+              "value": "18",
+              "index": true
+            },
+            {
+              "key": "batch_index",
+              "value": "13293",
+              "index": true
+            },
+            {
+              "key": "msg_index",
+              "value": "3349",
+              "index": true
+            },
+            {
+              "key": "deposit_coins",
+              "value": "6381900uatom,100000ugcyb",
+              "index": true
+            }
+          ]
+        }
+      ],
+      "codespace": ""
+    },
+    {
+      "code": 0,
+      "data": "\n\u0013\n\u0011swap_within_batch",
+      "log": "[{\"events\":[{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"swap_within_batch\"},{\"key\":\"sender\",\"value\":\"cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn\"},{\"key\":\"module\",\"value\":\"liquidity\"}]},{\"type\":\"swap_within_batch\",\"attributes\":[{\"key\":\"pool_id\",\"value\":\"43\"},{\"key\":\"batch_index\",\"value\":\"2838\"},{\"key\":\"msg_index\",\"value\":\"2129\"},{\"key\":\"swap_type_id\",\"value\":\"1\"},{\"key\":\"offer_coin_denom\",\"value\":\"xrun\"},{\"key\":\"offer_coin_amount\",\"value\":\"499250000\"},{\"key\":\"offer_coin_fee_amount\",\"value\":\"748875\"},{\"key\":\"demand_coin_denom\",\"value\":\"udsm\"},{\"key\":\"order_price\",\"value\":\"0.097751431382802748\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962\"},{\"key\":\"sender\",\"value\":\"cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn\"},{\"key\":\"amount\",\"value\":\"499998875xrun\"}]}]}]",
+      "info": "",
+      "gas_wanted": "300000",
+      "gas_used": "96231",
+      "events": [
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "300000uatom",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "swap_within_batch",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+              "index": true
+            },
+            {
+              "key": "sender",
+              "value": "cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn",
+              "index": true
+            },
+            {
+              "key": "amount",
+              "value": "499998875xrun",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "module",
+              "value": "liquidity",
+              "index": true
+            }
+          ]
+        },
+        {
+          "type": "swap_within_batch",
+          "attributes": [
+            {
+              "key": "pool_id",
+              "value": "43",
+              "index": true
+            },
+            {
+              "key": "batch_index",
+              "value": "2838",
+              "index": true
+            },
+            {
+              "key": "msg_index",
+              "value": "2129",
+              "index": true
+            },
+            {
+              "key": "swap_type_id",
+              "value": "1",
+              "index": true
+            },
+            {
+              "key": "offer_coin_denom",
+              "value": "xrun",
+              "index": true
+            },
+            {
+              "key": "offer_coin_amount",
+              "value": "499250000",
+              "index": true
+            },
+            {
+              "key": "offer_coin_fee_amount",
+              "value": "748875",
+              "index": true
+            },
+            {
+              "key": "demand_coin_denom",
+              "value": "udsm",
+              "index": true
+            },
+            {
+              "key": "order_price",
+              "value": "0.097751431382802748",
+              "index": true
+            }
+          ]
+        }
+      ],
+      "codespace": ""
+    },
+    {
+      "code": 11,
+      "data": "ée",
+      "log": "out of gas in location: WriteFlat; gasWanted: 70000, gasUsed: 71209: out of gas",
+      "info": "",
+      "gas_wanted": "70000",
+      "gas_used": "71209",
+      "events": [],
+      "codespace": "sdk"
+    }
+  ],
+  "begin_block_events": [
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "cosmos1m3h30wlvsf8llruxtpukdvsy0km2kum8g38c8q",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "731053stake",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1m3h30wlvsf8llruxtpukdvsy0km2kum8g38c8q",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "mint",
+      "attributes": [
+        {
+          "key": "bonded_ratio",
+          "value": "0.000199674968950203",
+          "index": true
+        },
+        {
+          "key": "inflation",
+          "value": "0.131615970006672309",
+          "index": true
+        },
+        {
+          "key": "annual_provisions",
+          "value": "4614057510015.046612928944186407",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "731053",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl",
+          "index": true
+        },
+        {
+          "key": "sender",
+          "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "731053stake,900000uatom",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos17xpfvakm2amg962yls6f84z3kell8c5lserqta",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "proposer_reward",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "36552.650000000000000000stake,45000.000000000000000000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1zd0glg3xyem3lpncnswtjee9qj7yhzca72w2jn",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "3655.265000000000000000stake,4500.000000000000000000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1zd0glg3xyem3lpncnswtjee9qj7yhzca72w2jn",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "36552.650000000000000000stake,45000.000000000000000000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1zd0glg3xyem3lpncnswtjee9qj7yhzca72w2jn",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1zd0glg3xyem3lpncnswtjee9qj7yhzca72w2jn",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1zd0glg3xyem3lpncnswtjee9qj7yhzca72w2jn",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper18jugxywx90rhjrpk7a6q0w7t6tzu5upjud2yuw",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper18jugxywx90rhjrpk7a6q0w7t6tzu5upjud2yuw",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1aumz20v53dqsrsey2mrswta8apu050695hw58t",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1aumz20v53dqsrsey2mrswta8apu050695hw58t",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1q0h2gsxu2328kvt60c2ld7n47ca3wtaqnk4a22",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1q0h2gsxu2328kvt60c2ld7n47ca3wtaqnk4a22",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1k0y5ykw6k5zcsfcpt4vm2s9xn70kgglm2ck3xu",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1k0y5ykw6k5zcsfcpt4vm2s9xn70kgglm2ck3xu",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1fczr8ytetkey9qvwsfaerlseft8wwl840ljwc9",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper1fczr8ytetkey9qvwsfaerlseft8wwl840ljwc9",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "commission",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "9712.561285714285704573stake,11957.142857142857130900uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper16z36fyxypm8tgs4t2kude3nah0yf8vmp854dep",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "rewards",
+      "attributes": [
+        {
+          "key": "amount",
+          "value": "97125.612857142857045731stake,119571.428571428571309000uatom",
+          "index": true
+        },
+        {
+          "key": "validator",
+          "value": "cosmosvaloper16z36fyxypm8tgs4t2kude3nah0yf8vmp854dep",
+          "index": true
+        }
+      ]
+    }
+  ],
+  "end_block_events": [
+    {
+      "type": "swap_transacted",
+      "attributes": [
+        {
+          "key": "pool_id",
+          "value": "11",
+          "index": true
+        },
+        {
+          "key": "batch_index",
+          "value": "14007",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "9544",
+          "index": true
+        },
+        {
+          "key": "swap_requester",
+          "value": "cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f",
+          "index": true
+        },
+        {
+          "key": "swap_type_id",
+          "value": "1",
+          "index": true
+        },
+        {
+          "key": "offer_coin_denom",
+          "value": "uatom",
+          "index": true
+        },
+        {
+          "key": "offer_coin_amount",
+          "value": "1997000",
+          "index": true
+        },
+        {
+          "key": "order_price",
+          "value": "0.041874842420790627",
+          "index": true
+        },
+        {
+          "key": "swap_price",
+          "value": "0.040657285107522458",
+          "index": true
+        },
+        {
+          "key": "transacted_coin_amount",
+          "value": "1997000.000000000000000000",
+          "index": true
+        },
+        {
+          "key": "remaining_offer_coin_amount",
+          "value": "0",
+          "index": true
+        },
+        {
+          "key": "exchanged_offer_coin_amount",
+          "value": "1997000",
+          "index": true
+        },
+        {
+          "key": "offer_coin_fee_amount",
+          "value": "2995.000000000000000000",
+          "index": true
+        },
+        {
+          "key": "reserved_offer_coin_fee_amount",
+          "value": "0",
+          "index": true
+        },
+        {
+          "key": "order_expiry_height",
+          "value": "78479",
+          "index": true
+        },
+        {
+          "key": "success",
+          "value": "success",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1k8q6y6yqw6zvgtj2up8g3t2nhmhwt6c6qhr8l7",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1k8q6y6yqw6zvgtj2up8g3t2nhmhwt6c6qhr8l7",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "1997000uatom",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1w6022ks3as28hjj0w8yzaqyp6xg86pu839xk6f",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "49044224ucom",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1k8q6y6yqw6zvgtj2up8g3t2nhmhwt6c6qhr8l7",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "2995uatom",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1s80j6e7ezn693e2m798v7n2l4hvrpjt49ucpx8",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "6381895uatom,100000ugcyb",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "5uatom",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "19049pool81DF2D67D914F458E55BF14ECF4D5FADD830C9759CAF8ED99B9B859ED5C275E2",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "deposit_to_pool",
+      "attributes": [
+        {
+          "key": "pool_id",
+          "value": "18",
+          "index": true
+        },
+        {
+          "key": "batch_index",
+          "value": "13293",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "3349",
+          "index": true
+        },
+        {
+          "key": "depositor",
+          "value": "cosmos1483ld4rkx6tfm0lhpwt86rvs5gt7er8xz6jl3g",
+          "index": true
+        },
+        {
+          "key": "accepted_coins",
+          "value": "6381895uatom,100000ugcyb",
+          "index": true
+        },
+        {
+          "key": "refunded_coins",
+          "value": "5uatom",
+          "index": true
+        },
+        {
+          "key": "pool_coin_denom",
+          "value": "pool81DF2D67D914F458E55BF14ECF4D5FADD830C9759CAF8ED99B9B859ED5C275E2",
+          "index": true
+        },
+        {
+          "key": "pool_coin_amount",
+          "value": "19049",
+          "index": true
+        },
+        {
+          "key": "success",
+          "value": "success",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos19uf7p7ma99hffqjmfjy2uymxz9gfnn4tzfqa7w",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "60000000ucom,59041169ungm",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "31ungm",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "13493pool2F13E0FB7D296E94825B4C88AE1366115099CEABBCD6F875927099B2420E82FF",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "deposit_to_pool",
+      "attributes": [
+        {
+          "key": "pool_id",
+          "value": "40",
+          "index": true
+        },
+        {
+          "key": "batch_index",
+          "value": "3259",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "961",
+          "index": true
+        },
+        {
+          "key": "depositor",
+          "value": "cosmos1czeqk52ju4ugvct2e0tz54y9j98m3400jhffhp",
+          "index": true
+        },
+        {
+          "key": "accepted_coins",
+          "value": "60000000ucom,59041169ungm",
+          "index": true
+        },
+        {
+          "key": "refunded_coins",
+          "value": "31ungm",
+          "index": true
+        },
+        {
+          "key": "pool_coin_denom",
+          "value": "pool2F13E0FB7D296E94825B4C88AE1366115099CEABBCD6F875927099B2420E82FF",
+          "index": true
+        },
+        {
+          "key": "pool_coin_amount",
+          "value": "13493",
+          "index": true
+        },
+        {
+          "key": "success",
+          "value": "success",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "swap_transacted",
+      "attributes": [
+        {
+          "key": "pool_id",
+          "value": "43",
+          "index": true
+        },
+        {
+          "key": "batch_index",
+          "value": "2838",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "2129",
+          "index": true
+        },
+        {
+          "key": "swap_requester",
+          "value": "cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn",
+          "index": true
+        },
+        {
+          "key": "swap_type_id",
+          "value": "1",
+          "index": true
+        },
+        {
+          "key": "offer_coin_denom",
+          "value": "xrun",
+          "index": true
+        },
+        {
+          "key": "offer_coin_amount",
+          "value": "499250000",
+          "index": true
+        },
+        {
+          "key": "order_price",
+          "value": "0.097751431382802748",
+          "index": true
+        },
+        {
+          "key": "swap_price",
+          "value": "0.100550104810944553",
+          "index": true
+        },
+        {
+          "key": "transacted_coin_amount",
+          "value": "499250000.000000000000000000",
+          "index": true
+        },
+        {
+          "key": "remaining_offer_coin_amount",
+          "value": "0",
+          "index": true
+        },
+        {
+          "key": "exchanged_offer_coin_amount",
+          "value": "499250000",
+          "index": true
+        },
+        {
+          "key": "offer_coin_fee_amount",
+          "value": "748875.000000000000000000",
+          "index": true
+        },
+        {
+          "key": "reserved_offer_coin_fee_amount",
+          "value": "0",
+          "index": true
+        },
+        {
+          "key": "order_expiry_height",
+          "value": "78479",
+          "index": true
+        },
+        {
+          "key": "success",
+          "value": "success",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1hd5kfetklc58n3ueumzmtnchcresn7drmku3y8",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1hd5kfetklc58n3ueumzmtnchcresn7drmku3y8",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "499250000xrun",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1fqh6z00s6xrxtkwck3pf4jmk7mc5mfwnwjcysn",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "50124340udsm",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1hd5kfetklc58n3ueumzmtnchcresn7drmku3y8",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "748875xrun",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "attributes": [
+        {
+          "key": "sender",
+          "value": "cosmos1tx68a8k9yz54z06qfve9l2zxvgsz4ka3hr8962",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos1fvyfhw68s8kjw9kxa2hueyyl82wralq090xfga",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "568199352uakt,2500000000ucom",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "48uakt",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "transfer",
+      "attributes": [
+        {
+          "key": "recipient",
+          "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+          "index": true
+        },
+        {
+          "key": "amount",
+          "value": "840944pool4B089BBB4781ED2716C6EAAFCC909F3A9C3EFC0F29E80CE0F4E70BD767F84B15",
+          "index": true
+        }
+      ]
+    },
+    {
+      "type": "deposit_to_pool",
+      "attributes": [
+        {
+          "key": "pool_id",
+          "value": "45",
+          "index": true
+        },
+        {
+          "key": "batch_index",
+          "value": "2572",
+          "index": true
+        },
+        {
+          "key": "msg_index",
+          "value": "697",
+          "index": true
+        },
+        {
+          "key": "depositor",
+          "value": "cosmos19m5x2np9k69qrjv3t5gaygandv0tzrslr22lz5",
+          "index": true
+        },
+        {
+          "key": "accepted_coins",
+          "value": "568199352uakt,2500000000ucom",
+          "index": true
+        },
+        {
+          "key": "refunded_coins",
+          "value": "48uakt",
+          "index": true
+        },
+        {
+          "key": "pool_coin_denom",
+          "value": "pool4B089BBB4781ED2716C6EAAFCC909F3A9C3EFC0F29E80CE0F4E70BD767F84B15",
+          "index": true
+        },
+        {
+          "key": "pool_coin_amount",
+          "value": "840944",
+          "index": true
+        },
+        {
+          "key": "success",
+          "value": "success",
+          "index": true
+        }
+      ]
+    }
+  ],
+  "validator_updates": null,
+  "consensus_param_updates": {
+    "block": {
+      "max_bytes": "22020096",
+      "max_gas": "-1"
+    },
+    "evidence": {
+      "max_age_num_blocks": "100000",
+      "max_age_duration": "172800000000000",
+      "max_bytes": "1048576"
+    },
+    "validator": {
+      "pub_key_types": [
+        "ed25519"
+      ]
+    }
+  }
+}
