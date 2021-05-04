@@ -4,6 +4,7 @@ networks:
     name: dev
 services:
   nginx:
+    image: sonntuet1997/ai-assignment-proxy:dev
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,6 +17,7 @@ services:
     networks:
       - dev
   nextjs:
+    image: sonntuet1997/ai-assignment-ui:dev
     build:
       context: ../../
       dockerfile: Dockerfile
