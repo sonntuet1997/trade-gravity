@@ -81,13 +81,14 @@ export const CheckCoin = ({
         }
     }, [delay, values.coin, interCount]);
 
-    const minAtomAmount = 66;
+    const minAtomAmount = 40;
     const trade = (coin) => {
         const tradeNumber = parseFloat(coin);
         const startCoin = startPoint;
         const endCoin = result.name.split('___')[0];
         const poolId = Number(data[startCoin][endCoin].info.id);
         if (startCoin === 'uatom' && ((balances[startPoint] / 1000000 - tradeNumber + 10) < minAtomAmount)) {
+            alert('Mua Atom không hết tiền trả gas!');
             return;
         }
         if (balances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
@@ -140,7 +141,7 @@ export const CheckCoin = ({
         setBestResult(bResult);
     }, [data, values]);
     useEffect(() => {
-        setValues((pre) => ({...pre, custom: ''}));
+        auto && setValues((pre) => ({...pre, custom: ''}));
     }, [data]);
     const auto = false;
     const allowRate = 0.09;
