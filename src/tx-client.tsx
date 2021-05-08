@@ -4,34 +4,34 @@ import {chainInfo} from "./config"
 import {coins} from "cosmjs-amm/launchpad"
 
 export async function BroadcastLiquidityTx(txInfo, data) {
-    console.log(txInfo);
     if (!(window as any).getOfflineSigner) return;
     const signer = (window as any).getOfflineSigner(chainInfo.chainId);
 
     const txGenerator = await txClient(signer, {addr: chainInfo.rpc})
     let msg = null
-    if (txInfo.type === 'msgCreatePool') {
-        try {
-            msg = txGenerator.msgCreatePool(txInfo.data)
-        } catch (e) {
-            console.log(e)
-            throw e;
-        }
-    } else if (txInfo.type === 'msgDeposit') {
-        try {
-            msg = txGenerator.msgDepositWithinBatch(txInfo.data)
-        } catch (e) {
-            console.log(e)
-            throw e;
-        }
-    } else if (txInfo.type === 'msgWithdraw') {
-        try {
-            msg = txGenerator.msgWithdrawWithinBatch(txInfo.data)
-        } catch (e) {
-            console.log(e)
-            throw e;
-        }
-    } else if (txInfo.type === 'msgSwap') {
+    // if (txInfo.type === 'msgCreatePool') {
+    //     try {
+    //         msg = txGenerator.msgCreatePool(txInfo.data)
+    //     } catch (e) {
+    //         console.log(e)
+    //         throw e;
+    //     }
+    // } else if (txInfo.type === 'msgDeposit') {
+    //     try {
+    //         msg = txGenerator.msgDepositWithinBatch(txInfo.data)
+    //     } catch (e) {
+    //         console.log(e)
+    //         throw e;
+    //     }
+    // } else if (txInfo.type === 'msgWithdraw') {
+    //     try {
+    //         msg = txGenerator.msgWithdrawWithinBatch(txInfo.data)
+    //     } catch (e) {
+    //         console.log(e)
+    //         throw e;
+    //     }
+    // } else
+    if (txInfo.type === 'msgSwap') {
         try {
             msg = txGenerator.msgSwapWithinBatch(txInfo.data)
         } catch (e) {
@@ -62,6 +62,14 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                 console.log(txBroadcastResponse, failMsg)
                 throw new Error('fail');
             } else {
+                let count = 0;
+                const t = setInterval(() =>{
+                    if(count < 11){
+                        count++;
+                        return;
+                    }
+                    clearInterval(t);
+                }, 1000)
                 const txResult = setInterval(async () => {
                     try {
                         let response = await getTxResult(txBroadcastResponse.height, data)
@@ -73,10 +81,17 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                             }
                         }
                         const result = {type: data.type, resultData: response}
-                        clearInterval(txResult)
-                        return result;
+                        if (result.resultData.success === "success") {
+                            clearInterval(txResult);
+                            return result;
+                        } else {
+                            throw new Error(JSON.stringify(response));
+                        }
                     } catch (e) {
-                        console.log(e)
+                        console.log(e);
+                        if(count > 10){
+                            clearInterval(txResult);
+                        }
                         throw (e);
                     }
                 }, 1000)
@@ -88,7 +103,7 @@ export async function BroadcastLiquidityTx(txInfo, data) {
             throw e;
         }
     }
-    const re = await Promise.any([total()]);
+    const re = await total();
     return;
 }
 
@@ -129,7 +144,6 @@ async function getTxResult(height, data) {
     }
     return successData
 }
-
 
 
 function getEndBlockChecks(data) {

@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {BroadcastLiquidityTx} from "../tx-client";
 import {MyAddress, SwapFeeRate, UserAcceptRange} from "../const";
 import {cutNumber} from "../global-functions";
-import {getBestInternalTrade, getBestTrade} from "./strategies";
+import {getBestInternalTrade, getBestTrade, reserveAtom} from "./strategies";
 
 
 export const convertedObj = (array) => {
@@ -62,12 +62,14 @@ export const CheckCoin = ({
     const gas = '0.3';
     useEffect(() => {
         if (!balances) return;
-        setValues({...values, custom: '', coin: balances[startPoint] / 1000000});
+
+        setValues((pre) => ({...pre, custom: auto ? '' : pre.custom, coin: balances[startPoint] / 1000000}));
     }, [balances]);
     const [curVal, setCurVal] = useState<any>(0);
     const [interCount, setInterCount] = useState<any>(0);
     useEffect(() => {
-        if (delay && auto) {
+        if (!auto) return;
+        if (delay) {
             if (values.coin != curVal || interCount == 8) {
                 setDelay(false);
                 setInterCount(0);
@@ -81,14 +83,12 @@ export const CheckCoin = ({
         }
     }, [delay, values.coin, interCount]);
 
-    const minAtomAmount = 40;
     const trade = (coin) => {
         const tradeNumber = parseFloat(coin);
         const startCoin = startPoint;
         const endCoin = result.name.split('___')[0];
         const poolId = Number(data[startCoin][endCoin].info.id);
-        if (startCoin === 'uatom' && ((balances[startPoint] / 1000000 - tradeNumber + 10) < minAtomAmount)) {
-            alert('Mua Atom không hết tiền trả gas!');
+        if (startCoin === 'uatom' && ((balances[startPoint] / 1000000 - tradeNumber + 10) < reserveAtom)) {
             return;
         }
         if (balances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
@@ -130,59 +130,61 @@ export const CheckCoin = ({
         if (!(startPoint)) return;
         if (!(prices && data)) return;
         if (!data['uatom']) return;
-        const coin = (values.custom && values.custom != '') ? values.custom : values.coin;
+        const coin = (values.custom && values.custom != '') ? parseFloat(values.custom) : values.coin;
         if (!coin) return;
-        const result = getBestTrade(data, startPoint, coin, gas, prices, '', false);
-        const bResult = getBestTrade(data, startPoint, coin, gas, prices, '', true);
+        // const fixEndPoint = (values.custom && values.custom != '' && auto);
+
+        const _result = getBestTrade(data, startPoint, coin, gas, prices, '', false, auto);
+        const bResult = getBestTrade(data, startPoint, coin, gas, prices, '', false, false);
         // setBestResult(bResult);
         // const bIResult = getBestInternalTrade(data, startPoint, coin, gas, '', false);
         // const b2Result = getBestInternalTrade(data, startPoint, coin, gas, '', true);
-        setResult(result);
+        setResult(_result);
         setBestResult(bResult);
     }, [data, values]);
+    const auto = true;
     useEffect(() => {
         auto && setValues((pre) => ({...pre, custom: ''}));
     }, [data]);
-    const auto = false;
-    const allowRate = 0.09;
+    // const allowRate = 0.09;
+    // useEffect(() => {
+    //     if (!auto) return;
+    //     if (!result?.priceImpact) return;
+    //     const priceImpact = parseFloat(result.priceImpact.split('___')[0]);
+    //     const profit = parseFloat(result.profit);
+    //     if (values.custom && values.custom !== '') {
+    //
+    //     } else {
+    //         if (profit > -5) {
+    //             const endPoint = result.name.split('___')[0];
+    //             if (priceImpact > allowRate) {
+    //                 const customCoin = parseFloat((allowRate * parseFloat(data[startPoint][endPoint].first)/20000).toFixed(2));
+    //                 if (startPoint === 'uatom') {
+    //                     setValues({...values, custom: Math.max(customCoin - minAtomAmount, 0)});
+    //                 } else {
+    //                     setValues({...values, custom: customCoin});
+    //                 }
+    //             } else if (startPoint === 'uatom') {
+    //                 setValues({...values, custom: Math.max(values.coin - minAtomAmount, -1)});
+    //             }
+    //         }
+    //     }
+    // }, [result]);
     useEffect(() => {
         if (!auto) return;
         if (!result?.priceImpact) return;
-        const priceImpact = parseFloat(result.priceImpact.split('___')[0]);
+        // if (startPoint === 'uatom' && ((!values.custom) || values.custom === '' || values.custom === -1)) return;
         const profit = parseFloat(result.profit);
-        if (values.custom && values.custom !== '') {
-
-        } else {
-            if (profit > -5) {
-                if (priceImpact > allowRate) {
-                    const customCoin = cutNumber(values.coin / priceImpact * allowRate, 0);
-                    if (startPoint === 'uatom') {
-                        setValues({...values, custom: Math.max(customCoin - minAtomAmount, 0)});
-                    } else {
-                        setValues({...values, custom: customCoin});
-                    }
-                } else if (startPoint === 'uatom') {
-                    setValues({...values, custom: Math.max(values.coin - minAtomAmount, -1)});
-                }
-            }
-        }
-    }, [result]);
-    useEffect(() => {
-        if (!auto) return;
-        if (!result?.priceImpact) return;
-        if (startPoint === 'uatom' && ((!values.custom) || values.custom === '' || values.custom === -1)) return;
-        const priceImpact = parseFloat(result.priceImpact.split('___')[0]);
-        const profit = parseFloat(result.profit);
-        const coin = (values.custom && values.custom !== '') ? values.custom : values.coin;
-        if (!delay && !loading && priceImpact <= allowRate && profit >= 5) {
+        const coin = parseFloat(result.tradeCoin);
+        if (!delay && !loading && profit >= 5) {
             trade(coin);
         }
-    }, [result, values, delay, loading]);
+    }, [result, delay, loading]);
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
     const onFinish = (valuess: any) => {
-        setValues({...values, ...valuess});
+        setValues((pre) => ({...pre, ...valuess}));
         setLoading(false);
     };
     const shouldTrade = () => {
@@ -219,7 +221,7 @@ export const CheckCoin = ({
                 <Col span={18}>
                     <Button type={shouldTrade() ? "primary" : "dashed"} loading={loading}
                             onClick={() => trade(values.custom)}>
-                        {mesBtn}({values.custom})
+                        {mesBtn}({auto ? result.tradeCoin : values.custom})
                     </Button>
                 </Col>
             </Row>
@@ -245,7 +247,7 @@ export const CheckCoin = ({
                     if (name === 'exEndCoin') return null;
                     if (name === 'tradeCoin2') return null;
                     if (name === 'PPI') return null;
-                    if (name === 'tradeCoin') return null;
+                    // if (name === 'tradeCoin') return null;
                     return (<div key={`xxxxx${i}`}>
                         <Tag icon={<CheckCircleOutlined/>} color={(result?.color) ?? 'error'}>
                             {name}: {name === 'chain_info' ? result[name].id : result[name]}

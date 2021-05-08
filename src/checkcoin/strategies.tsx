@@ -1,6 +1,9 @@
 import {SwapFeeRate, UserAcceptRange} from "../const";
 import {cutNumber} from "../global-functions";
+
 const finishCoin = 'xrun'
+const allowRate = 0.095;
+export const reserveAtom = 50;
 
 export const calBestAmount = (sfr, a, b, sr, rx, ry, fee, op) => {
     const n = 0.5 / op * ry;
@@ -13,7 +16,7 @@ export const calBestAmount = (sfr, a, b, sr, rx, ry, fee, op) => {
     return Math.sqrt(square);
 
 }
-export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calBest = false) => {
+export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calBest = false, auto = false) => {
     // const fee = ( graph['uatom'][finish].rate) * parseFloat(gas);
     const fee = prices['atom'] * parseFloat(gas);
     if (!graph[start]) return {};
@@ -27,7 +30,7 @@ export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calB
         const rX = prices[startCoin.substr(1)] ?? 0;
         const rY = prices[endCoin.substr(1)] ?? 0;
         const orderPrice = (isReversed ? graph[startCoin][endCoin].rate : graph[endCoin][startCoin].rate) * SlippageRange;
-        const minWantedAmountEndCoinPerStartPoint = isReversed ? orderPrice : (1/orderPrice);
+        const minWantedAmountEndCoinPerStartPoint = isReversed ? orderPrice : (1 / orderPrice);
         const bestAmount = calBestAmount(
             SwapFeeRate,
             graph[startCoin][endCoin].first,
@@ -38,7 +41,17 @@ export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calB
             fee,
             orderPrice
         )
-        const tradeCoin = parseFloat(calBest ? bestAmount.toString() : coin);
+
+        let tradeCoin = parseFloat(calBest ? bestAmount.toString() : coin);
+        if (auto) {
+            const customCoin = parseFloat((allowRate * oriV[cur].first / 2000000).toFixed(2));
+            const reserveAtomCoin = startCoin === 'uatom' ? reserveAtom : 0;
+            // const priceImpact = (2 * customCoin * 1000000 / oriV[cur].first);
+            // console.log(customCoin,priceImpact);
+            tradeCoin = Math.min(tradeCoin, customCoin) - reserveAtomCoin;
+            tradeCoin = tradeCoin < 0 ? 0 : tradeCoin;
+        }
+
         // const calculatedCoinFee = Math.floor(tradeCoin * (1 - SwapFeeRate / 2) * 0.001500000000000000);
         const calculatedOfferCoin = Math.floor(tradeCoin * (1 - SwapFeeRate / 2));
         const expectedAmountEndCoin = calculatedOfferCoin * minWantedAmountEndCoinPerStartPoint;
@@ -50,7 +63,8 @@ export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calB
         let result = {
             name: endCoin,
             chain_info: oriV[endCoin].info,
-            tradeCoin: `${cutNumber(tradeCoin, 5)}`,
+            // tradeCoin: `${cutNumber(tradeCoin, 5)}`,
+            tradeCoin: `${tradeCoin}`,
             profit,
             exEndCoin: cutNumber(expectedAmountEndCoin, 2),
             PPI: cutNumber(PPI, 5).toString(),
@@ -70,7 +84,7 @@ export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calB
                 result = {
                     name: `${endCoin}___${bestValue.name}`,
                     chain_info: oriV[endCoin].info,
-                    tradeCoin: `${cutNumber(tradeCoin, 5)}`,
+                    tradeCoin: `${tradeCoin}`,
                     originValue,
                     tradeCoin2: `${cutNumber(bestValue.tradeCoin, 5)}`,
                     profit: newProfit,
@@ -88,10 +102,9 @@ export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calB
         if (result.profit > pre.profit) return result;
         return pre;
     }, {x: 0, profit: -9999, conversionRate: 0})
-    best.profit = cutNumber(best.profit,0);
+    best.profit = cutNumber(best.profit, 0);
     return best
 }
-
 
 
 export const calBestInternalAmount = (sfr, a, b, sr, rx, ry, fee, op) => {
@@ -120,7 +133,7 @@ export const getBestInternalTrade = (graph, start, coin, gas, preNode = '', calB
         // const rX = prices[startCoin.substr(1)] ?? 0;
         // const rY = prices[endCoin.substr(1)] ?? 0;
         const orderPrice = (isReversed ? graph[startCoin][endCoin].rate : graph[endCoin][startCoin].rate) * SlippageRange;
-        const minWantedAmountEndCoinPerStartPoint = isReversed ? orderPrice : (1/orderPrice);
+        const minWantedAmountEndCoinPerStartPoint = isReversed ? orderPrice : (1 / orderPrice);
         const rX = startCoin === finishCoin ? 1 : graph[startCoin][finishCoin].rate;
         const rY = graph[endCoin][finishCoin].rate;
         const bestAmount = calBestInternalAmount(
@@ -183,6 +196,6 @@ export const getBestInternalTrade = (graph, start, coin, gas, preNode = '', calB
         if (result.profit > pre.profit) return result;
         return pre;
     }, {x: 0, profit: -9999, conversionRate: 0})
-    best.profit = cutNumber(best.profit,0);
+    best.profit = cutNumber(best.profit, 0);
     return best
 }

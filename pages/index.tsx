@@ -59,7 +59,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     useEffect(() => {
         const i = setInterval(async () => {
             setTrig({})
-        }, 7000);
+        }, 8000);
         return () => {
             clearInterval(i);
         }
@@ -83,11 +83,9 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                 setMyBalances(convertedBalances);
                 setMyInteralBalances(getInternalValue(convertedBalances,obj));
                 setPrices(pricess);
-                console.log(myBalance)
             } catch (err) {
                 setMess(err.message);
                 loadSet[1](true);
-                console.log(err)
             }
         })()]).then(() => {})
         
