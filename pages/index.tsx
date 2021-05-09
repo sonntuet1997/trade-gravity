@@ -10,7 +10,7 @@ import {withTranslation} from '@i18n'
 import axios from "axios";
 import {CheckCoin, convertedObj} from "../src/checkcoin";
 import {cutNumber, getInternalValue, getMinimalDenomCoin, getTotalValue} from "../src/global-functions";
-import { Api } from 'src/@starport/tendermint-liquidity-js/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/rest'
+import {Api} from 'src/@starport/tendermint-liquidity-js/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/rest'
 import {chainInfo} from "../src/config";
 import {MyAddress} from "../src/const";
 
@@ -40,8 +40,8 @@ const getPrice = () => {
     }))
 }
 
-const getMyBalance =async () => {
-    const bankRestApi = new Api({ baseUrl: chainInfo.rest })
+const getMyBalance = async () => {
+    const bankRestApi = new Api({baseUrl: chainInfo.rest})
     const response = await bankRestApi.queryAllBalances(MyAddress);
     return response.data;
 }
@@ -64,32 +64,33 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             clearInterval(i);
         }
     }, []);
-    useEffect(() =>{
+    useEffect(() => {
         Promise.all([(async () => {
             try {
                 setMess('loading');
                 const isErr = mess !== 'loading' && mess != 'success';
                 const [pools, pricess, myBalance] = await Promise.all([getPools(), getPrice(), getMyBalance()]);
                 setMess('success');
-                if(isErr) {
+                if (isErr) {
                     loadSet[1](false);
                 }
                 const obj = convertedObj(pools);
                 setData(obj);
-                const convertedBalances = myBalance.balances.reduce((pre,cur)=>{
+                const convertedBalances = myBalance.balances.reduce((pre, cur) => {
                     pre[cur.denom] = cur.amount;
                     return pre;
-                },{});
+                }, {});
                 setMyBalances(convertedBalances);
-                setMyInteralBalances(getInternalValue(convertedBalances,obj));
+                setMyInteralBalances(getInternalValue(convertedBalances, obj));
                 setPrices(pricess);
             } catch (err) {
                 setMess(err.message);
                 loadSet[1](true);
             }
-        })()]).then(() => {})
-        
-    },[trig])
+        })()]).then(() => {
+        })
+
+    }, [trig])
     useEffect(() => {
         const i = setInterval(async () => {
             try {
@@ -104,9 +105,9 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             clearInterval(i);
         }
     }, []);
-    useEffect(() =>{
-        setTotalValues(getTotalValue(myBalances, prices??{}));
-    }, [myBalances,prices]);
+    useEffect(() => {
+        setTotalValues(getTotalValue(myBalances, prices ?? {}));
+    }, [myBalances, prices]);
     const coinss = _.chunk(
         ['uakt', 'uatom', 'ubtsg',
             'ucom', 'udsm', 'udvpn',
@@ -123,14 +124,16 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
         <div
             style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}
         >
-            <h1>Global price: {totalValues} --- Internal price: {cutNumber(myInteralBalances,2)} --- {rank} --- {mess}</h1>
+            <h1>Global price: {totalValues} --- Internal
+                price: {cutNumber(myInteralBalances, 2)} --- {rank} --- {mess}</h1>
             {/*<div>{analysisData}</div>*/}
             {coinss.map((row, i) => {
                 return (<Row key={`iiiii${i}`}>
                     {row.map((col, j) => {
                         return (
                             <Col style={{border: 'solid 1px black'}} span={4} key={`jjjjjj${i},${j}`}>
-                                <CheckCoin loadSet={loadSet} balances={myBalances} prices={prices} data={data} startPoint={col}/>
+                                <CheckCoin loadSet={loadSet} balances={myBalances} prices={prices} data={data}
+                                           startPoint={col}/>
                             </Col>)
                     })}
                 </Row>)

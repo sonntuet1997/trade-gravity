@@ -2,7 +2,7 @@ import {txClient} from "./@starport/tendermint-liquidity-js/tendermint/liquidity
 import axios from "axios";
 import {chainInfo} from "./config"
 import {coins} from "cosmjs-amm/launchpad"
-
+ 
 export async function BroadcastLiquidityTx(txInfo, data) {
     if (!(window as any).getOfflineSigner) return;
     const signer = (window as any).getOfflineSigner(chainInfo.chainId);
