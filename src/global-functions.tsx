@@ -5,7 +5,6 @@ export function getMinimalDenomCoin(x) {
         return "u" + x
     }
 }
-
 export function cutNumber(number, digitsAfterDot) {
     const str = `${number}`;
 

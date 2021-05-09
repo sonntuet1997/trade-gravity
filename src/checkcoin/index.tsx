@@ -142,7 +142,7 @@ export const CheckCoin = ({
         setResult(_result);
         setBestResult(bResult);
     }, [data, values]);
-    const auto = true;
+    const auto = false;
     useEffect(() => {
         auto && setValues((pre) => ({...pre, custom: ''}));
     }, [data]);

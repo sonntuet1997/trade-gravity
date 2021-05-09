@@ -63,8 +63,8 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                 throw new Error('fail');
             } else {
                 let count = 0;
-                const t = setInterval(() =>{
-                    if(count < 11){
+                const t = setInterval(() => {
+                    if (count < 11) {
                         count++;
                         return;
                     }
@@ -89,7 +89,7 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                         }
                     } catch (e) {
                         console.log(e);
-                        if(count > 10){
+                        if (count > 10) {
                             clearInterval(txResult);
                         }
                         throw (e);
@@ -157,5 +157,14 @@ function getEndBlockChecks(data) {
 
     if (data.type === "Add Liquidity") {
         return {type: "deposit_to_pool", txAddress: 'depositor', userAddress: data.userAddress}
+    }
+}
+
+export async function getBlockHeight() {
+    try {
+        const response = await axios.get(`${chainInfo.rpc}/abci_info`)
+        return response.data.result.response.last_block_height
+    } catch (e) {
+        console.log(e)
     }
 }

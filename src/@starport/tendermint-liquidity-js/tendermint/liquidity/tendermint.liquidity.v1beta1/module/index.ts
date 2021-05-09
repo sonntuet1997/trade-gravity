@@ -42,7 +42,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   const { address } = (await wallet.getAccounts())[0];
 
   return {
-    signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee),
     msgDepositWithinBatch: (data: MsgDepositWithinBatch): EncodeObject => ({ typeUrl: "/tendermint.liquidity.v1beta1.MsgDepositWithinBatch", value: data }),
     msgCreatePool: (data: MsgCreatePool): EncodeObject => ({ typeUrl: "/tendermint.liquidity.v1beta1.MsgCreatePool", value: data }),
     msgWithdrawWithinBatch: (data: MsgWithdrawWithinBatch): EncodeObject => ({ typeUrl: "/tendermint.liquidity.v1beta1.MsgWithdrawWithinBatch", value: data }),
