@@ -57,49 +57,47 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     const [rank, setRank] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [trig, setTrig] = useState<any>({});
-    const [cooldown, dispatchCooldown] = useReducer((state, action) => {
-        switch (action.type) {
-            case 'set': {
-                state[action.data.coin] = 0;
-                return state;
-            }
-            case 'add': {
-                Object.keys(state).forEach((key, i) => {
-                    if (state[key]) {
-                        state[key] = state[key] > 3 ? null : state[key] + 1;
-                    }
-                })
-                return state;
-            }
-        }
-    }, {});
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
             case 'trade': {
-                const {startCoin, endCoin, coin} = action.data;
-                state.loading[startCoin] = true;
-                state.transactionList.push(action.data);
+                if (state.transaction[action.data.startCoin]) {
+                    return state;
+                } else {
+                    state.transaction[action.data.startCoin] = action.data;
+                    return state;
+                }
+            }
+            case 'clear-pending': {
+                state.currentPending = null;
+                return state;
+            }
+            case 'clear-transaction': {
+                state.transaction[action.data] = null;
                 return state;
             }
             case 'handle': {
-                if (loading) return state;
-                const indexTransaction = state.transactionList.findIndex(x => !cooldown[x.startCoin]);
-                if (indexTransaction === -1) return state;
-                const {startCoin, endCoin, coin, balance} = state.transactionList[indexTransaction];
-                state.transactionList.splice(indexTransaction, 1);
+                if (state.currentPending) return state;
+                const index = Object.keys(state.transaction).reduce((pre, cur) => {
+                    if (state.transaction[cur] && !state.transaction[cur].isWaiting && (pre === -1 || state.transaction[cur].profit > state.transaction[pre].profit)) {
+                        return cur;
+                    }
+                    return pre;
+                }, -1);
+                if (index === -1) return state;
+                const {startCoin, endCoin, coin, balance} = state.transaction[index];
                 const tradeNumber = parseFloat(coin);
                 const poolId = Number(data[startCoin][endCoin].info.id);
                 if (myBalances[startCoin] / 1000000 != balance) {
-                    state.loading[startCoin] = false;
+                    state.transaction[index] = null;
                     return state;
                 }
                 if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
-                    state.loading[startCoin] = false;
+                    state.transaction[index] = null;
                     return state;
                 }
                 if (myBalances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
                     alert('Mua Atom không hết tiền trả gas!');
-                    state.loading[startCoin] = false;
+                    state.transaction[index] = null;
                     return state;
                 }
                 const isReversed = startCoin > endCoin;
@@ -107,7 +105,8 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                 const calculatedCoinFee = Math.floor(tradeNumber * (1 - SwapFeeRate / 2) * 1000000 * 0.001500000000000000);
                 const calculatedOfferCoin = Math.floor(Number(cutNumber(tradeNumber, 6)) * (1 - SwapFeeRate / 2) * 1000000);
                 const orderPrice = (isReversed ? data[startCoin][endCoin].rate : data[endCoin][startCoin].rate) * SlippageRange;
-                setLoading(true);
+                state.currentPending = {...state.transaction[index]};
+                state.transaction[index].isWaiting = true;
                 BroadcastLiquidityTx({
                         type: 'msgSwap',
                         data: {
@@ -122,38 +121,40 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                         }
                     }, {type: 'Swap', userAddress: MyAddress, demandCoinDenom: endCoin}
                 ).then(res => {
-                    state.loading[startCoin] = false;
-                    dispatchCooldown({type: 'set', data: startCoin});
-                    setLoading(false);
+                    dispatch({type: 'clear-pending'});
+                    setTimeout(() => {
+                        dispatch({type: 'clear-transaction', data: index});
+                    }, 3500)
                 }).catch(e => {
-                    console.log(e);
-                    state.loading[startCoin] = false;
-                    dispatchCooldown({type: 'set', data: startCoin});
-                    setLoading(false);
+                    dispatch({type: 'clear-pending'});
+                    // if (e.message === 'Request rejected')
+                    //     dispatch({type: 'clear-transaction', data: index});
+                    // else{
+                        setTimeout(() => {
+                            dispatch({type: 'clear-transaction', data: index});
+                        }, 3500)
+                    // }
                 })
                 return state;
             }
         }
-    }, {loading: {}, transactionList: [], coolDown: {}});
-    useEffect(() => {
-        setInterval(() => {
-            dispatch({type: 'handle'})
-        }, 500);
-    }, []);
-    useEffect(() => {
-        setInterval(() => {
-            dispatchCooldown({type: 'add'})
-        }, 1000);
-    }, []);
+    }, {transaction: {}, currentPending: null});
     useEffect(() => {
         const i = setInterval(async () => {
             setTrig({})
-        }, 8000);
+        }, 7000);
         return () => {
             clearInterval(i);
         }
     }, []);
-
+    useEffect(() => {
+        const i = setInterval(async () => {
+            dispatch({type: 'handle'});
+        }, 500);
+        return () => {
+            clearInterval(i);
+        }
+    }, []);
 
     useEffect(() => {
         Promise.all([(async () => {
@@ -180,7 +181,6 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             }
         })()]).then(() => {
         })
-
     }, [trig])
     useEffect(() => {
         const i = setInterval(async () => {
@@ -206,11 +206,6 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             'ungm', 'uregen', 'uxprt', 'xrun'
         ], 6)
 
-
-    const trade = ({startCoin, endCoin, coin, balances}) => {
-
-    }
-
     return (
         <div
             style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}
@@ -223,7 +218,10 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                     {row.map((col, j) => {
                         return (
                             <Col style={{border: 'solid 1px black'}} span={4} key={`jjjjjj${i},${j}`}>
-                                <CheckCoin dispatch={dispatch} loading={state.loading[col]} balances={myBalances}
+                                <CheckCoin dispatch={dispatch}
+                                           pending={state.transaction[col]?.isWaiting}
+                                           loading={loading || (!_.isEmpty(state.transaction[col]))}
+                                           balances={myBalances}
                                            prices={prices}
                                            data={data}
                                            startPoint={col}/>

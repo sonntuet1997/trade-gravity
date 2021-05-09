@@ -41,13 +41,12 @@ export async function BroadcastLiquidityTx(txInfo, data) {
     }
     const fee = {
         amount: coins(2000, "uatom"),
-        gas: "300000", // 180k
+        gas: "100000", // 180k
     };
     const total = async () => {
         try {
             const txBroadcastResponse: any = await txGenerator.signAndBroadcast([msg], {
                 fee: fee,
-                memo: 'night mutual code obscure series jacket april keen narrow move thing hungry'
             })
             if (txBroadcastResponse.code !== undefined) {
                 const failMsg = {type: data.type, resultData: txBroadcastResponse.rawLog}
@@ -56,13 +55,7 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                 throw new Error('fail');
             } else {
                 let count = 0;
-                const t = setInterval(() => {
-                    if (count < 11) {
-                        count++;
-                        return;
-                    }
-                    clearInterval(t);
-                }, 1000)
+
                 const txResult = setInterval(async () => {
                     try {
                         let response = await getTxResult(txBroadcastResponse.height, data)
@@ -81,11 +74,19 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                         }
                     } catch (e) {
                         console.log(e);
-                        if (count > 10) {
+                        if (count > 7) {
                             clearInterval(txResult);
                         }
                         throw (e);
                     }
+                }, 1000);
+                const t = setInterval(() => {
+                    if (count < 11) {
+                        count++;
+                        return;
+                    }
+                    clearInterval(txResult);
+                    clearInterval(t);
                 }, 1000)
             }
         } catch (e) {

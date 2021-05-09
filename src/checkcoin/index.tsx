@@ -43,7 +43,8 @@ export const CheckCoin = ({
                               coin,
                               balances,
                               loading,
-                          }: { dispatch: React.Dispatch<any>, loading: boolean, data: any, balances: any, startPoint: string, prices: any, coin?: any }) => {
+                              pending,
+                          }: { dispatch: React.Dispatch<any>, loading: boolean, pending: boolean, data: any, balances: any, startPoint: string, prices: any, coin?: any }) => {
     const layout = {
         labelCol: {span: 0},
         wrapperCol: {span: 0},
@@ -54,31 +55,14 @@ export const CheckCoin = ({
     const [values, setValues] = useState<any>({startPoint, coin: coin ?? '10000'});
     const [result, setResult] = useState<any>({});
     const [bestResult, setBestResult] = useState<any>({});
-    const [delay, setDelay] = useState(false);
-    const [mesBtn, setMesBtn] = useState<any>('Trade!');
     const gas = '0.3';
     useEffect(() => {
         if (!balances) return;
 
         setValues((pre) => ({...pre, custom: auto ? '' : pre.custom, coin: balances[startPoint] / 1000000}));
     }, [balances]);
-    const [curVal, setCurVal] = useState<any>(0);
-    const [interCount, setInterCount] = useState<any>(0);
-    useEffect(() => {
-        if (!auto) return;
-        if (delay) {
-            if (values.coin != curVal || interCount == 8) {
-                setDelay(false);
-                setInterCount(0);
-                return;
-            }
-            setTimeout(() => {
-                setInterCount(pre => pre + 1);
-            }, 1000);
-        } else {
-            setCurVal(values.coin);
-        }
-    }, [delay, values.coin, interCount]);
+    // const [curVal, setCurVal] = useState<any>(0);
+    // const [interCount, setInterCount] = useState<any>(0);
 
     useEffect(() => {
         if (!(startPoint)) return;
@@ -86,8 +70,6 @@ export const CheckCoin = ({
         if (!data['uatom']) return;
         const coin = (values.custom && values.custom != '') ? parseFloat(values.custom) : values.coin;
         if (!coin) return;
-        // const fixEndPoint = (values.custom && values.custom != '' && auto);
-
         const _result = getBestTrade(data, startPoint, coin, gas, prices, '', false, auto);
         const bResult = getBestTrade(data, startPoint, coin, gas, prices, '', false, false);
         // setBestResult(bResult);
@@ -107,10 +89,10 @@ export const CheckCoin = ({
         // if (startPoint === 'uatom' && ((!values.custom) || values.custom === '' || values.custom === -1)) return;
         const profit = parseFloat(result.profit);
         const coin = parseFloat(result.tradeCoin);
-        if (!delay && !loading && profit >= 5) {
-            trade(result.name.split('___')[0], coin)
+        if (!pending && !loading && profit >= 5) {
+            trade(result.name.split('___')[0], coin, profit)
         }
-    }, [result, delay, loading]);
+    }, [result, pending, loading]);
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
@@ -121,14 +103,15 @@ export const CheckCoin = ({
         if (!(result.profitRation && result.priceImpact)) return;
         return result.profit > 150;
     }
-    const trade = (endCoin, coin) => {
+    const trade = (endCoin, coin, profit) => {
         dispatch({
             type: 'trade',
             data: {
                 startCoin: startPoint,
                 endCoin,
                 coin,
-                balance: values.coin
+                balance: values.coin,
+                profit: profit
             }
         });
     }
@@ -146,9 +129,9 @@ export const CheckCoin = ({
                     <b>{startPoint}</b>
                 </Col>
                 <Col span={18}>
-                    <Button type={shouldTrade() ? "primary" : "dashed"} loading={loading}
-                            onClick={() => trade(bestResult.name.split('___')[0], bestResult.tradeCoin)}>
-                        {mesBtn}({values.coin})
+                    <Button type={shouldTrade() ? "primary" : "dashed"} loading={pending || loading}
+                            onClick={() => trade(bestResult.name.split('___')[0], bestResult.tradeCoin, bestResult.profit)}>
+                        {pending ? 'pending' : loading ? 'loading' : 'trade!'}({values.coin})
                     </Button>
                 </Col>
             </Row>
@@ -159,9 +142,9 @@ export const CheckCoin = ({
                     </Form.Item>
                 </Col>
                 <Col span={18}>
-                    <Button type={shouldTrade() ? "primary" : "dashed"} loading={loading}
-                            onClick={() => trade(result.name.split('___')[0], result.tradeCoin)}>
-                        {mesBtn}({result.tradeCoin})
+                    <Button type={shouldTrade() ? "primary" : "dashed"} loading={pending || loading}
+                            onClick={() => trade(result.name.split('___')[0], result.tradeCoin, bestResult.profit)}>
+                        {pending ? 'pending' : loading ? 'loading' : 'trade!'}({result.tradeCoin})
                     </Button>
                 </Col>
             </Row>
