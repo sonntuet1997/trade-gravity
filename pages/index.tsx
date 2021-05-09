@@ -191,7 +191,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     useEffect(() => {
         const i = setInterval(async () => {
             dispatch({type: 'handle'});
-        }, 1000);
+        }, 700);
         return () => {
             clearInterval(i);
         }
