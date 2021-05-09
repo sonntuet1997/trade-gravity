@@ -2,10 +2,7 @@ import {Button, Col, Form, Row, Tag} from "antd";
 import {Input} from "@components";
 import {CheckCircleOutlined, CloseCircleOutlined} from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
-import {BroadcastLiquidityTx} from "../tx-client";
-import {MyAddress, SwapFeeRate, UserAcceptRange} from "../const";
-import {cutNumber} from "../global-functions";
-import {getBestInternalTrade, getBestTrade, reserveAtom} from "./strategies";
+import {getBestTrade} from "./strategies";
 
 
 export const convertedObj = (array) => {
@@ -39,13 +36,14 @@ export const convertedObj = (array) => {
 }
 
 export const CheckCoin = ({
+                              dispatch,
                               data,
                               startPoint,
                               prices,
                               coin,
                               balances,
-                              loadSet,
-                          }: { loadSet: any, data: any, balances: any, startPoint: string, prices: any, coin?: any }) => {
+                              loading,
+                          }: { dispatch: React.Dispatch<any>, loading: boolean, data: any, balances: any, startPoint: string, prices: any, coin?: any }) => {
     const layout = {
         labelCol: {span: 0},
         wrapperCol: {span: 0},
@@ -56,7 +54,6 @@ export const CheckCoin = ({
     const [values, setValues] = useState<any>({startPoint, coin: coin ?? '10000'});
     const [result, setResult] = useState<any>({});
     const [bestResult, setBestResult] = useState<any>({});
-    const [loading, setLoading] = loadSet;
     const [delay, setDelay] = useState(false);
     const [mesBtn, setMesBtn] = useState<any>('Trade!');
     const gas = '0.3';
@@ -83,49 +80,6 @@ export const CheckCoin = ({
         }
     }, [delay, values.coin, interCount]);
 
-    const trade = (coin) => {
-        const tradeNumber = parseFloat(coin);
-        const startCoin = startPoint;
-        const endCoin = result.name.split('___')[0];
-        const poolId = Number(data[startCoin][endCoin].info.id);
-        if (startCoin === 'uatom' && ((balances[startPoint] / 1000000 - tradeNumber + 10) < reserveAtom)) {
-            return;
-        }
-        if (balances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
-            alert('Mua Atom không hết tiền trả gas!');
-            return;
-        }
-        setLoading(true);
-        const isReversed = startCoin > endCoin;
-        const SlippageRange = isReversed ? (1 - UserAcceptRange / 100) : ((1 + UserAcceptRange / 100));
-        const calculatedCoinFee = Math.floor(tradeNumber * (1 - SwapFeeRate / 2) * 1000000 * 0.001500000000000000);
-        const calculatedOfferCoin = Math.floor(Number(cutNumber(tradeNumber, 6)) * (1 - SwapFeeRate / 2) * 1000000);
-        const orderPrice = (isReversed ? data[startCoin][endCoin].rate : data[endCoin][startCoin].rate) * SlippageRange;
-        setMesBtn('Trading...');
-        BroadcastLiquidityTx({
-                type: 'msgSwap',
-                data: {
-                    swapRequesterAddress: MyAddress,
-                    // poolId: Number(selectedPoolData.id),
-                    poolId,
-                    swapTypeId: 1,
-                    offerCoin: {denom: startCoin, amount: String(calculatedOfferCoin)},
-                    demandCoinDenom: endCoin,
-                    offerCoinFee: {denom: startCoin, amount: String(calculatedCoinFee)},
-                    orderPrice: String(orderPrice.toFixed(18).replace('.', '').replace(/(^0+)/, ""))
-                }
-            }, {type: 'Swap', userAddress: MyAddress, demandCoinDenom: endCoin}
-        ).then(res => {
-            setMesBtn('success');
-            setLoading(false);
-            setDelay(true);
-        }).catch(e => {
-            console.log(e);
-            setMesBtn('error');
-            setDelay(true);
-            setLoading(false);
-        })
-    }
     useEffect(() => {
         if (!(startPoint)) return;
         if (!(prices && data)) return;
@@ -142,34 +96,11 @@ export const CheckCoin = ({
         setResult(_result);
         setBestResult(bResult);
     }, [data, values]);
-    const auto = false;
+    const auto = true;
     useEffect(() => {
         auto && setValues((pre) => ({...pre, custom: ''}));
     }, [data]);
-    // const allowRate = 0.09;
-    // useEffect(() => {
-    //     if (!auto) return;
-    //     if (!result?.priceImpact) return;
-    //     const priceImpact = parseFloat(result.priceImpact.split('___')[0]);
-    //     const profit = parseFloat(result.profit);
-    //     if (values.custom && values.custom !== '') {
-    //
-    //     } else {
-    //         if (profit > -5) {
-    //             const endPoint = result.name.split('___')[0];
-    //             if (priceImpact > allowRate) {
-    //                 const customCoin = parseFloat((allowRate * parseFloat(data[startPoint][endPoint].first)/20000).toFixed(2));
-    //                 if (startPoint === 'uatom') {
-    //                     setValues({...values, custom: Math.max(customCoin - minAtomAmount, 0)});
-    //                 } else {
-    //                     setValues({...values, custom: customCoin});
-    //                 }
-    //             } else if (startPoint === 'uatom') {
-    //                 setValues({...values, custom: Math.max(values.coin - minAtomAmount, -1)});
-    //             }
-    //         }
-    //     }
-    // }, [result]);
+
     useEffect(() => {
         if (!auto) return;
         if (!result?.priceImpact) return;
@@ -177,7 +108,7 @@ export const CheckCoin = ({
         const profit = parseFloat(result.profit);
         const coin = parseFloat(result.tradeCoin);
         if (!delay && !loading && profit >= 5) {
-            trade(coin);
+            trade(result.name.split('___')[0], coin)
         }
     }, [result, delay, loading]);
     const onFinishFailed = (errorInfo: any) => {
@@ -185,13 +116,22 @@ export const CheckCoin = ({
     };
     const onFinish = (valuess: any) => {
         setValues((pre) => ({...pre, ...valuess}));
-        setLoading(false);
     };
     const shouldTrade = () => {
         if (!(result.profitRation && result.priceImpact)) return;
         return result.profit > 150;
     }
-
+    const trade = (endCoin, coin) => {
+        dispatch({
+            type: 'trade',
+            data: {
+                startCoin: startPoint,
+                endCoin,
+                coin,
+                balance: values.coin
+            }
+        });
+    }
     return (
         <Form
             {...layout}
@@ -207,7 +147,7 @@ export const CheckCoin = ({
                 </Col>
                 <Col span={18}>
                     <Button type={shouldTrade() ? "primary" : "dashed"} loading={loading}
-                            onClick={() => trade(values.coin)}>
+                            onClick={() => trade(bestResult.name.split('___')[0], bestResult.tradeCoin)}>
                         {mesBtn}({values.coin})
                     </Button>
                 </Col>
@@ -220,8 +160,8 @@ export const CheckCoin = ({
                 </Col>
                 <Col span={18}>
                     <Button type={shouldTrade() ? "primary" : "dashed"} loading={loading}
-                            onClick={() => trade(values.custom)}>
-                        {mesBtn}({auto ? result.tradeCoin : values.custom})
+                            onClick={() => trade(result.name.split('___')[0], result.tradeCoin)}>
+                        {mesBtn}({result.tradeCoin})
                     </Button>
                 </Col>
             </Row>

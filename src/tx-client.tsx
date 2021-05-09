@@ -2,7 +2,7 @@ import {txClient} from "./@starport/tendermint-liquidity-js/tendermint/liquidity
 import axios from "axios";
 import {chainInfo} from "./config"
 import {coins} from "cosmjs-amm/launchpad"
- 
+
 export async function BroadcastLiquidityTx(txInfo, data) {
     if (!(window as any).getOfflineSigner) return;
     const signer = (window as any).getOfflineSigner(chainInfo.chainId);
@@ -43,13 +43,6 @@ export async function BroadcastLiquidityTx(txInfo, data) {
         amount: coins(2000, "uatom"),
         gas: "300000", // 180k
     };
-    const waitTime = (time) => {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(true)
-            }, time)
-        })
-    };
     const total = async () => {
         try {
             const txBroadcastResponse: any = await txGenerator.signAndBroadcast([msg], {
@@ -73,7 +66,6 @@ export async function BroadcastLiquidityTx(txInfo, data) {
                 const txResult = setInterval(async () => {
                     try {
                         let response = await getTxResult(txBroadcastResponse.height, data)
-
                         if (data.type === "Swap") {
                             response.demand_coin_denom = data?.demandCoinDenom
                             if (response.success === 'fail') {
@@ -103,7 +95,7 @@ export async function BroadcastLiquidityTx(txInfo, data) {
             throw e;
         }
     }
-    const re = await total();
+    await total();
     return;
 }
 
