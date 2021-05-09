@@ -143,7 +143,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                     state.transaction[t.startCoin].isWaiting = true;
                 });
                 const test = selectTransactionList.map(x => x.tx);
-                BroadcastLiquidityTx([test[0],test[0]], {
+                BroadcastLiquidityTx(test, {
                         type: 'Swap',
                         userAddress: MyAddress,
                     },
