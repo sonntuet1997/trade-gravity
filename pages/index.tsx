@@ -57,6 +57,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     const [rank, setRank] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [trig, setTrig] = useState<any>({});
+    const [trig2, setTrig2] = useState<any>({});
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
             case 'trade': {
@@ -69,13 +70,22 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             }
             case 'clear-pending': {
                 state.currentPending = null;
+                setTimeout(() => {
+                    setTrig2({});
+                }, 300)
                 return state;
             }
             case 'clear-transaction': {
                 state.transaction[action.data] = null;
+                setTimeout(() => {
+                    setTrig2({});
+                }, 300)
                 return state;
             }
             case 'handle': {
+                setTimeout(() => {
+                    setTrig2({});
+                }, 500)
                 if (state.currentPending) return state;
                 const index = Object.keys(state.transaction).reduce((pre, cur) => {
                     if (state.transaction[cur] && !state.transaction[cur].isWaiting && (pre === -1 || state.transaction[cur].profit > state.transaction[pre].profit)) {
@@ -91,10 +101,10 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                     state.transaction[index] = null;
                     return state;
                 }
-                if (startCoin  === 'xrun' && profit < 250){
-                    state.transaction[index] = null;
-                    return state;
-                }
+                // if (startCoin  === 'xrun' && profit < 250 && balance < 150000){
+                //     state.transaction[index] = null;
+                //     return state;
+                // }
                 if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
                     state.transaction[index] = null;
                     return state;
@@ -123,22 +133,24 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                             offerCoinFee: {denom: startCoin, amount: String(calculatedCoinFee)},
                             orderPrice: String(orderPrice.toFixed(18).replace('.', '').replace(/(^0+)/, ""))
                         }
-                    }, {type: 'Swap', userAddress: MyAddress, demandCoinDenom: endCoin}
-                ).then(res => {
-                    dispatch({type: 'clear-pending'});
-                    setTimeout(() => {
-                        dispatch({type: 'clear-transaction', data: index});
-                    }, 3500)
-                }).catch(e => {
-                    dispatch({type: 'clear-pending'});
-                    // if (e.message === 'Request rejected')
-                    //     dispatch({type: 'clear-transaction', data: index});
-                    // else{
-                        setTimeout(() => {
-                            dispatch({type: 'clear-transaction', data: index});
-                        }, 3500)
-                    // }
-                })
+                    }, {type: 'Swap', userAddress: MyAddress, demandCoinDenom: endCoin},
+                    ({status, data}) => {
+                        console.log(status, data);
+                        switch (status) {
+                            case 'broadcastSuccess': {
+                                dispatch({type: 'clear-pending'});
+                            }
+                            case 'broadcastFail': {
+                                dispatch({type: 'clear-pending'});
+                            }
+                            case 'txSuccess': {
+                                dispatch({type: 'clear-transaction', data: index});
+                            }
+                            case 'txFail': {
+                                dispatch({type: 'clear-transaction', data: index});
+                            }
+                        }
+                    })
                 return state;
             }
         }
