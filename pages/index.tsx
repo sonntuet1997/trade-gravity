@@ -84,10 +84,14 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                     return pre;
                 }, -1);
                 if (index === -1) return state;
-                const {startCoin, endCoin, coin, balance} = state.transaction[index];
+                const {startCoin, endCoin, coin, balance, profit} = state.transaction[index];
                 const tradeNumber = parseFloat(coin);
                 const poolId = Number(data[startCoin][endCoin].info.id);
                 if (myBalances[startCoin] / 1000000 != balance) {
+                    state.transaction[index] = null;
+                    return state;
+                }
+                if (startCoin  === 'xrun' && profit < 250){
                     state.transaction[index] = null;
                     return state;
                 }

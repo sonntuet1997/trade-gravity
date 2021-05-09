@@ -55,7 +55,7 @@ export const CheckCoin = ({
     const [values, setValues] = useState<any>({startPoint, coin: coin ?? '10000'});
     const [result, setResult] = useState<any>({});
     const [bestResult, setBestResult] = useState<any>({});
-    const gas = '0.3';
+    const gas = '0.1';
     useEffect(() => {
         if (!balances) return;
 
