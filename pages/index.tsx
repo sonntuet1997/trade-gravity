@@ -144,10 +144,14 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                                 dispatch({type: 'clear-pending'});
                             }
                             case 'txSuccess': {
-                                dispatch({type: 'clear-transaction', data: index});
+                                setTimeout(()=>{
+                                    dispatch({type: 'clear-transaction', data: index});
+                                },1500);
                             }
                             case 'txFail': {
-                                dispatch({type: 'clear-transaction', data: index});
+                                setTimeout(()=>{
+                                    dispatch({type: 'clear-transaction', data: index});
+                                },1500);
                             }
                         }
                     })
