@@ -136,13 +136,14 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                         }
                     }
                 }).filter(Boolean);
-                const selectTransactionList = transactionList.slice(0, 3);
+                const selectTransactionList = transactionList.slice(0, 6);
                 if (selectTransactionList.length === 0) return state;
                 state.currentPending = selectTransactionList;
                 selectTransactionList.forEach(t => {
                     state.transaction[t.startCoin].isWaiting = true;
-                })
-                BroadcastLiquidityTx(selectTransactionList.map(x => x.tx), {
+                });
+                const test = selectTransactionList.map(x => x.tx);
+                BroadcastLiquidityTx([test[0],test[0]], {
                         type: 'Swap',
                         userAddress: MyAddress,
                     },
@@ -156,20 +157,22 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                                 dispatch({type: 'clear-pending'});
                             }
                             case 'txSuccess': {
+                                console.log(111111111);
                                 setTimeout(() => {
                                     dispatch({
                                         type: 'clear-transaction',
                                         data: selectTransactionList.map(t => t.startCoin)
                                     });
-                                }, 1500);
+                                }, 5000);
                             }
                             case 'txFail': {
+                                console.log(11111111111);
                                 setTimeout(() => {
                                     dispatch({
                                         type: 'clear-transaction',
                                         data: selectTransactionList.map(t => t.startCoin)
                                     });
-                                }, 1500);
+                                }, 5000);
                             }
                         }
                     })
@@ -188,7 +191,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     useEffect(() => {
         const i = setInterval(async () => {
             dispatch({type: 'handle'});
-        }, 500);
+        }, 1000);
         return () => {
             clearInterval(i);
         }

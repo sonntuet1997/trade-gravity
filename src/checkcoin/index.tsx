@@ -78,8 +78,8 @@ export const CheckCoin = ({
         setResult(_result);
         setBestResult(bResult);
     }, [data, values]);
-    const auto = true;
-    const autoCommit = true;
+    const auto = false;
+    const autoCommit = false;
     useEffect(() => {
         auto && setValues((pre) => ({...pre, custom: ''}));
     }, [data]);
