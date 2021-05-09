@@ -76,7 +76,9 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                 return state;
             }
             case 'clear-transaction': {
-                state.transaction[action.data] = null;
+                action.data.forEach(i => {
+                    state.transaction[i] = null;
+                })
                 setTimeout(() => {
                     setTrig2({});
                 }, 300)
@@ -87,53 +89,63 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                     setTrig2({});
                 }, 500)
                 if (state.currentPending) return state;
-                const index = Object.keys(state.transaction).reduce((pre, cur) => {
-                    if (state.transaction[cur] && !state.transaction[cur].isWaiting && (pre === -1 || state.transaction[cur].profit > state.transaction[pre].profit)) {
-                        return cur;
+                const coinList = Object.keys(state.transaction).filter(t => Boolean(state.transaction[t]))
+                    .sort((a, b) => {
+                        return state.transaction[b].profit - state.transaction[a].profit;
+                    }).filter(x => state.transaction[x] && !state.transaction[x].isWaiting);
+                const transactionList = coinList.map(index => {
+                    const {startCoin, endCoin, coin, balance, profit} = state.transaction[index];
+                    const tradeNumber = parseFloat(coin);
+                    const poolId = Number(data[startCoin][endCoin].info.id);
+                    if (myBalances[startCoin] / 1000000 != balance) {
+                        state.transaction[index] = null;
+                        return null;
                     }
-                    return pre;
-                }, -1);
-                if (index === -1) return state;
-                const {startCoin, endCoin, coin, balance, profit} = state.transaction[index];
-                const tradeNumber = parseFloat(coin);
-                const poolId = Number(data[startCoin][endCoin].info.id);
-                if (myBalances[startCoin] / 1000000 != balance) {
-                    state.transaction[index] = null;
-                    return state;
-                }
-                // if (startCoin  === 'xrun' && profit < 250 && balance < 150000){
-                //     state.transaction[index] = null;
-                //     return state;
-                // }
-                if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
-                    state.transaction[index] = null;
-                    return state;
-                }
-                if (myBalances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
-                    alert('Mua Atom không hết tiền trả gas!');
-                    state.transaction[index] = null;
-                    return state;
-                }
-                const isReversed = startCoin > endCoin;
-                const SlippageRange = isReversed ? (1 - UserAcceptRange / 100) : ((1 + UserAcceptRange / 100));
-                const calculatedCoinFee = Math.floor(tradeNumber * (1 - SwapFeeRate / 2) * 1000000 * 0.001500000000000000);
-                const calculatedOfferCoin = Math.floor(Number(cutNumber(tradeNumber, 6)) * (1 - SwapFeeRate / 2) * 1000000);
-                const orderPrice = (isReversed ? data[startCoin][endCoin].rate : data[endCoin][startCoin].rate) * SlippageRange;
-                state.currentPending = {...state.transaction[index]};
-                state.transaction[index].isWaiting = true;
-                BroadcastLiquidityTx({
-                        type: 'msgSwap',
-                        data: {
-                            swapRequesterAddress: MyAddress,
-                            // poolId: Number(selectedPoolData.id),
-                            poolId,
-                            swapTypeId: 1,
-                            offerCoin: {denom: startCoin, amount: String(calculatedOfferCoin)},
-                            demandCoinDenom: endCoin,
-                            offerCoinFee: {denom: startCoin, amount: String(calculatedCoinFee)},
-                            orderPrice: String(orderPrice.toFixed(18).replace('.', '').replace(/(^0+)/, ""))
+                    // if (startCoin  === 'xrun' && profit < 250 && balance < 150000){
+                    //     state.transaction[index] = null;
+                    //     return state;
+                    // }
+                    if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
+                        state.transaction[index] = null;
+                        return null;
+                    }
+                    if (myBalances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
+                        alert('Mua Atom không hết tiền trả gas!');
+                        state.transaction[index] = null;
+                        return null;
+                    }
+                    const isReversed = startCoin > endCoin;
+                    const SlippageRange = isReversed ? (1 - UserAcceptRange / 100) : ((1 + UserAcceptRange / 100));
+                    const calculatedCoinFee = Math.floor(tradeNumber * (1 - SwapFeeRate / 2) * 1000000 * 0.001500000000000000);
+                    const calculatedOfferCoin = Math.floor(Number(cutNumber(tradeNumber, 6)) * (1 - SwapFeeRate / 2) * 1000000);
+                    const orderPrice = (isReversed ? data[startCoin][endCoin].rate : data[endCoin][startCoin].rate) * SlippageRange;
+                    return {
+                        startCoin: index,
+                        tx: {
+                            type: 'msgSwap',
+                            data: {
+                                swapRequesterAddress: MyAddress,
+                                // poolId: Number(selectedPoolData.id),
+                                poolId,
+                                swapTypeId: 1,
+                                offerCoin: {denom: startCoin, amount: String(calculatedOfferCoin)},
+                                demandCoinDenom: endCoin,
+                                offerCoinFee: {denom: startCoin, amount: String(calculatedCoinFee)},
+                                orderPrice: String(orderPrice.toFixed(18).replace('.', '').replace(/(^0+)/, ""))
+                            }
                         }
-                    }, {type: 'Swap', userAddress: MyAddress, demandCoinDenom: endCoin},
+                    }
+                }).filter(Boolean);
+                const selectTransactionList = transactionList.slice(0, 3);
+                if (selectTransactionList.length === 0) return state;
+                state.currentPending = selectTransactionList;
+                selectTransactionList.forEach(t => {
+                    state.transaction[t.startCoin].isWaiting = true;
+                })
+                BroadcastLiquidityTx(selectTransactionList.map(x => x.tx), {
+                        type: 'Swap',
+                        userAddress: MyAddress,
+                    },
                     ({status, data}) => {
                         console.log(status, data);
                         switch (status) {
@@ -144,14 +156,20 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                                 dispatch({type: 'clear-pending'});
                             }
                             case 'txSuccess': {
-                                setTimeout(()=>{
-                                    dispatch({type: 'clear-transaction', data: index});
-                                },1500);
+                                setTimeout(() => {
+                                    dispatch({
+                                        type: 'clear-transaction',
+                                        data: selectTransactionList.map(t => t.startCoin)
+                                    });
+                                }, 1500);
                             }
                             case 'txFail': {
-                                setTimeout(()=>{
-                                    dispatch({type: 'clear-transaction', data: index});
-                                },1500);
+                                setTimeout(() => {
+                                    dispatch({
+                                        type: 'clear-transaction',
+                                        data: selectTransactionList.map(t => t.startCoin)
+                                    });
+                                }, 1500);
                             }
                         }
                     })

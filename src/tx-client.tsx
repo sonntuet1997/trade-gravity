@@ -3,43 +3,45 @@ import axios from "axios";
 import {chainInfo} from "./config"
 import {coins} from "cosmjs-amm/launchpad"
 
-export async function BroadcastLiquidityTx(txInfo, data, dispatch) {
-    const signer = (window as any).getOfflineSigner(chainInfo.chainId);
-    const txGenerator = await txClient(signer, {addr: chainInfo.rpc})
-    let msg = null
+const generateMessage = (txInfo, txGenerator) => {
     if (txInfo.type === 'msgCreatePool') {
         try {
-            msg = txGenerator.msgCreatePool(txInfo.data)
+            return  txGenerator.msgCreatePool(txInfo.data)
         } catch (e) {
             console.log(e)
         }
     } else if (txInfo.type === 'msgDeposit') {
         try {
-            msg = txGenerator.msgDepositWithinBatch(txInfo.data)
+            return  txGenerator.msgDepositWithinBatch(txInfo.data)
         } catch (e) {
             console.log(e)
         }
     } else if (txInfo.type === 'msgWithdraw') {
         try {
-            msg = txGenerator.msgWithdrawWithinBatch(txInfo.data)
+            return  txGenerator.msgWithdrawWithinBatch(txInfo.data)
         } catch (e) {
             console.log(e)
         }
     } else if (txInfo.type === 'msgSwap') {
         try {
-            msg = txGenerator.msgSwapWithinBatch(txInfo.data)
+            return  txGenerator.msgSwapWithinBatch(txInfo.data)
         } catch (e) {
             console.log(e)
         }
     }
+}
 
-    console.log(msg)
+export async function BroadcastLiquidityTx(txInfoList, data, dispatch) {
+    const signer = (window as any).getOfflineSigner(chainInfo.chainId);
+    const txGenerator = await txClient(signer, {addr: chainInfo.rpc})
+    let msgList = txInfoList.map(t => generateMessage(t, txGenerator));
     const fee = {
         amount: coins(2000, "uatom"),
-        gas: "110000",
+        gas: Math.max(msgList.length * 80000, 100000).toString(),
     };
     try {
-        const txBroadcastResponse = await txGenerator.signAndBroadcast([msg], {fee: fee, memo: "competition-keplr"})
+        const txBroadcastResponse = await txGenerator.signAndBroadcast(msgList, {fee: fee, memo: "competition-keplr"})
+        console.log(txBroadcastResponse);
         if ((txBroadcastResponse as any).code !== undefined) {
             const failMsg = {type: data.type, resultData: txBroadcastResponse.rawLog}
             dispatch({status: 'broadcastFail', data: failMsg})
@@ -57,7 +59,6 @@ export async function BroadcastLiquidityTx(txInfo, data, dispatch) {
                     let response: any = await getTxResult(txBroadcastResponse.height, data)
 
                     if (data.type === "Swap") {
-                        response.demand_coin_denom = data?.demandCoinDenom
                         if (response.success === 'fail') {
                             response = "There may have been a drastic change in pool price recently or increase slippage tolerance(top-right gear button)"
                         }
