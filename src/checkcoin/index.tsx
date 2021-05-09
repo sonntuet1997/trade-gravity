@@ -79,12 +79,14 @@ export const CheckCoin = ({
         setBestResult(bResult);
     }, [data, values]);
     const auto = true;
+    const autoCommit = true;
     useEffect(() => {
         auto && setValues((pre) => ({...pre, custom: ''}));
     }, [data]);
 
     useEffect(() => {
         if (!auto) return;
+        if(!autoCommit) return;
         if (!result?.priceImpact) return;
         // if (startPoint === 'uatom' && ((!values.custom) || values.custom === '' || values.custom === -1)) return;
         const profit = parseFloat(result.profit);
