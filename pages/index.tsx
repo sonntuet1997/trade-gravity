@@ -57,6 +57,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     const [rank, setRank] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [trig, setTrig] = useState<any>({});
+    const [trig2, setTrig2] = useState<any>({});
     const [state, dispatch] = useReducer((state, action) => {
         switch (action.type) {
             case 'trade': {
@@ -69,76 +70,112 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             }
             case 'clear-pending': {
                 state.currentPending = null;
+                setTimeout(() => {
+                    setTrig2({});
+                }, 300)
                 return state;
             }
             case 'clear-transaction': {
-                state.transaction[action.data] = null;
+                action.data.forEach(i => {
+                    state.transaction[i] = null;
+                })
+                setTimeout(() => {
+                    setTrig2({});
+                }, 300)
                 return state;
             }
             case 'handle': {
+                setTimeout(() => {
+                    setTrig2({});
+                }, 500)
                 if (state.currentPending) return state;
-                const index = Object.keys(state.transaction).reduce((pre, cur) => {
-                    if (state.transaction[cur] && !state.transaction[cur].isWaiting && (pre === -1 || state.transaction[cur].profit > state.transaction[pre].profit)) {
-                        return cur;
+                const coinList = Object.keys(state.transaction).filter(t => Boolean(state.transaction[t]))
+                    .sort((a, b) => {
+                        return state.transaction[b].profit - state.transaction[a].profit;
+                    }).filter(x => state.transaction[x] && !state.transaction[x].isWaiting);
+                const transactionList = coinList.map(index => {
+                    const {startCoin, endCoin, coin, balance, profit} = state.transaction[index];
+                    const tradeNumber = parseFloat(coin);
+                    const poolId = Number(data[startCoin][endCoin].info.id);
+                    if (myBalances[startCoin] / 1000000 != balance) {
+                        state.transaction[index] = null;
+                        return null;
                     }
-                    return pre;
-                }, -1);
-                if (index === -1) return state;
-                const {startCoin, endCoin, coin, balance, profit} = state.transaction[index];
-                const tradeNumber = parseFloat(coin);
-                const poolId = Number(data[startCoin][endCoin].info.id);
-                if (myBalances[startCoin] / 1000000 != balance) {
-                    state.transaction[index] = null;
-                    return state;
-                }
-                if (startCoin  === 'xrun' && profit < 250){
-                    state.transaction[index] = null;
-                    return state;
-                }
-                if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
-                    state.transaction[index] = null;
-                    return state;
-                }
-                if (myBalances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
-                    alert('Mua Atom không hết tiền trả gas!');
-                    state.transaction[index] = null;
-                    return state;
-                }
-                const isReversed = startCoin > endCoin;
-                const SlippageRange = isReversed ? (1 - UserAcceptRange / 100) : ((1 + UserAcceptRange / 100));
-                const calculatedCoinFee = Math.floor(tradeNumber * (1 - SwapFeeRate / 2) * 1000000 * 0.001500000000000000);
-                const calculatedOfferCoin = Math.floor(Number(cutNumber(tradeNumber, 6)) * (1 - SwapFeeRate / 2) * 1000000);
-                const orderPrice = (isReversed ? data[startCoin][endCoin].rate : data[endCoin][startCoin].rate) * SlippageRange;
-                state.currentPending = {...state.transaction[index]};
-                state.transaction[index].isWaiting = true;
-                BroadcastLiquidityTx({
-                        type: 'msgSwap',
-                        data: {
-                            swapRequesterAddress: MyAddress,
-                            // poolId: Number(selectedPoolData.id),
-                            poolId,
-                            swapTypeId: 1,
-                            offerCoin: {denom: startCoin, amount: String(calculatedOfferCoin)},
-                            demandCoinDenom: endCoin,
-                            offerCoinFee: {denom: startCoin, amount: String(calculatedCoinFee)},
-                            orderPrice: String(orderPrice.toFixed(18).replace('.', '').replace(/(^0+)/, ""))
-                        }
-                    }, {type: 'Swap', userAddress: MyAddress, demandCoinDenom: endCoin}
-                ).then(res => {
-                    dispatch({type: 'clear-pending'});
-                    setTimeout(() => {
-                        dispatch({type: 'clear-transaction', data: index});
-                    }, 3500)
-                }).catch(e => {
-                    dispatch({type: 'clear-pending'});
-                    // if (e.message === 'Request rejected')
-                    //     dispatch({type: 'clear-transaction', data: index});
-                    // else{
-                        setTimeout(() => {
-                            dispatch({type: 'clear-transaction', data: index});
-                        }, 3500)
+                    // if (startCoin  === 'xrun' && profit < 250 && balance < 150000){
+                    //     state.transaction[index] = null;
+                    //     return state;
                     // }
-                })
+                    if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
+                        state.transaction[index] = null;
+                        return null;
+                    }
+                    if (myBalances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
+                        alert('Mua Atom không hết tiền trả gas!');
+                        state.transaction[index] = null;
+                        return null;
+                    }
+                    const isReversed = startCoin > endCoin;
+                    const SlippageRange = isReversed ? (1 - UserAcceptRange / 100) : ((1 + UserAcceptRange / 100));
+                    const calculatedCoinFee = Math.floor(tradeNumber * (1 - SwapFeeRate / 2) * 1000000 * 0.001500000000000000);
+                    const calculatedOfferCoin = Math.floor(Number(cutNumber(tradeNumber, 6)) * (1 - SwapFeeRate / 2) * 1000000);
+                    const orderPrice = (isReversed ? data[startCoin][endCoin].rate : data[endCoin][startCoin].rate) * SlippageRange;
+                    return {
+                        startCoin: index,
+                        tx: {
+                            type: 'msgSwap',
+                            data: {
+                                swapRequesterAddress: MyAddress,
+                                // poolId: Number(selectedPoolData.id),
+                                poolId,
+                                swapTypeId: 1,
+                                offerCoin: {denom: startCoin, amount: String(calculatedOfferCoin)},
+                                demandCoinDenom: endCoin,
+                                offerCoinFee: {denom: startCoin, amount: String(calculatedCoinFee)},
+                                orderPrice: String(orderPrice.toFixed(18).replace('.', '').replace(/(^0+)/, ""))
+                            }
+                        }
+                    }
+                }).filter(Boolean);
+                const selectTransactionList = transactionList.slice(0, 2);
+                if (selectTransactionList.length === 0) return state;
+                state.currentPending = selectTransactionList;
+                selectTransactionList.forEach(t => {
+                    state.transaction[t.startCoin].isWaiting = true;
+                });
+                const test = selectTransactionList.map(x => x.tx);
+                BroadcastLiquidityTx(test, {
+                        type: 'Swap',
+                        userAddress: MyAddress,
+                    },
+                    ({status, data}) => {
+                        console.log(status, data);
+                        switch (status) {
+                            case 'broadcastSuccess': {
+                                dispatch({type: 'clear-pending'});
+                            }
+                            case 'broadcastFail': {
+                                dispatch({type: 'clear-pending'});
+                            }
+                            case 'txSuccess': {
+                                console.log(111111111);
+                                setTimeout(() => {
+                                    dispatch({
+                                        type: 'clear-transaction',
+                                        data: selectTransactionList.map(t => t.startCoin)
+                                    });
+                                }, 5000);
+                            }
+                            case 'txFail': {
+                                console.log(11111111111);
+                                setTimeout(() => {
+                                    dispatch({
+                                        type: 'clear-transaction',
+                                        data: selectTransactionList.map(t => t.startCoin)
+                                    });
+                                }, 5000);
+                            }
+                        }
+                    })
                 return state;
             }
         }
@@ -154,7 +191,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     useEffect(() => {
         const i = setInterval(async () => {
             dispatch({type: 'handle'});
-        }, 500);
+        }, 700);
         return () => {
             clearInterval(i);
         }
@@ -164,12 +201,9 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
         Promise.all([(async () => {
             try {
                 setMess('loading');
-                const isErr = mess !== 'loading' && mess != 'success';
                 const [pools, pricess, myBalance] = await Promise.all([getPools(), getPrice(), getMyBalance()]);
                 setMess('success');
-                if (isErr) {
-                    setLoading(false);
-                }
+                setLoading(false);
                 const obj = convertedObj(pools);
                 setData(obj);
                 const convertedBalances = myBalance.balances.reduce((pre, cur) => {
