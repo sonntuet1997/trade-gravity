@@ -41,41 +41,46 @@ export async function BroadcastLiquidityTx(txInfoList, data, dispatch) {
     };
     try {
         const txBroadcastResponse = await txGenerator.signAndBroadcast(msgList, {fee: fee, memo: "competition-keplr"})
-        console.log(txBroadcastResponse);
-        if ((txBroadcastResponse as any).code !== undefined) {
-            const failMsg = {type: data.type, resultData: txBroadcastResponse.rawLog}
-            dispatch({status: 'broadcastFail', data: failMsg})
-
-            console.log("error")
-            console.log(txBroadcastResponse.rawLog)
-        } else {
-            console.log("success")
-            console.log(txBroadcastResponse)
-
-            dispatch({status: 'broadcastSuccess', data})
-
-            const txResult = setInterval(async () => {
-                try {
-                    let response: any = await getTxResult(txBroadcastResponse.height, data)
-
-                    if (data.type === "Swap") {
-                        if (response.success === 'fail') {
-                            response = "There may have been a drastic change in pool price recently or increase slippage tolerance(top-right gear button)"
-                        }
-                    }
-
-                    const result = {type: data.type, resultData: response}
-                    if (result.resultData.success === "success") {
-                        dispatch({status: 'txSuccess', data: result})
-                    } else {
-                        dispatch({status: 'txFail', data: result})
-                    }
-                    clearInterval(txResult)
-                } catch (e) {
-                    console.log(e)
-                }
-            }, 1000)
-        }
+        // console.log(txBroadcastResponse);
+        // if ((txBroadcastResponse as any).code !== 0) {
+        //     const failMsg = {type: data.type, resultData: txBroadcastResponse.rawLog}
+        //     dispatch({status: 'broadcastFail', data: failMsg})
+        //
+        //     console.log("error")
+        //     console.log(txBroadcastResponse.rawLog)
+        // } else {
+        //     console.log("success")
+        //     console.log(txBroadcastResponse)
+        //
+        //     dispatch({status: 'broadcastSuccess', data})
+        //     let count = 0;
+        //     const txResult = setInterval(async () => {
+        //         try {
+        //             let response: any = await getTxResult(txBroadcastResponse.height, data)
+        //
+        //             if (data.type === "Swap") {
+        //                 if (response.success === 'fail') {
+        //                     response = "There may have been a drastic change in pool price recently or increase slippage tolerance(top-right gear button)"
+        //                 }
+        //             }
+        //
+        //             const result = {type: data.type, resultData: response}
+        //             if (result.resultData.success === "success") {
+        //                 dispatch({status: 'txSuccess', data: result})
+        //             } else {
+        //                 dispatch({status: 'txFail', data: result})
+        //             }
+        //             clearInterval(txResult)
+        //         } catch (e) {
+        //             count++;
+        //             if(count > 10){
+        //                 dispatch({status: 'txFail', data: 'timeout'})
+        //                 clearInterval(txResult)
+        //             }
+        //             console.log(e)
+        //         }
+        //     }, 1000)
+        // }
 
     } catch (e) {
         console.log("error", e)
@@ -122,53 +127,6 @@ export async function BroadcastLiquidityTx(txInfoList, data, dispatch) {
         return successData
     }
 
-    function getTxProcessingStatus(status, data) {
-        if (status === 'init') {
-            return {type: 'store/setTxModalStatus', payload: {type: data.type, broadcastStatus: 'pending'}}
-        }
-
-        if (status === 'broadcastSuccess') {
-            return {
-                type: 'store/setTxModalStatus',
-                payload: {type: data.type, broadcastStatus: 'success', transactionResultStatus: 'pending'}
-            }
-        }
-
-        if (status === 'broadcastFail') {
-            return {
-                type: 'store/setTxModalStatus',
-                payload: {
-                    type: data.type,
-                    broadcastStatus: 'fail',
-                    resultData: {data: data.resultData, isSuccess: false}
-                }
-            }
-        }
-
-
-        if (status === 'txSuccess') {
-            return {
-                type: 'store/setTxModalStatus',
-                payload: {
-                    type: data.type,
-                    broadcastStatus: 'success',
-                    transactionResultStatus: 'success',
-                    resultData: {data: data.resultData, isSuccess: true}
-                }
-            }
-        }
-        if (status === 'txFail') {
-            return {
-                type: 'store/setTxModalStatus',
-                payload: {
-                    type: data.type,
-                    broadcastStatus: 'success',
-                    transactionResultStatus: 'fail',
-                    resultData: {data: data.resultData, isSuccess: false}
-                }
-            }
-        }
-    }
 }
 
 // export async function BroadcastLiquidityTx(txInfo, data, callback) {

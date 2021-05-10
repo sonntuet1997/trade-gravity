@@ -2,7 +2,7 @@ import {SwapFeeRate, UserAcceptRange} from "../const";
 import {cutNumber} from "../global-functions";
 
 const finishCoin = 'xrun'
-const allowRate = 0.185;
+const allowRate = 0.195;
 export const reserveAtom = 50;
 
 export const calBestAmount = (sfr, a, b, sr, rx, ry, fee, op) => {

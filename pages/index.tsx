@@ -136,7 +136,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                         }
                     }
                 }).filter(Boolean);
-                const selectTransactionList = transactionList.slice(0, 6);
+                const selectTransactionList = transactionList.slice(0, 2);
                 if (selectTransactionList.length === 0) return state;
                 state.currentPending = selectTransactionList;
                 selectTransactionList.forEach(t => {
@@ -201,12 +201,9 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
         Promise.all([(async () => {
             try {
                 setMess('loading');
-                const isErr = mess !== 'loading' && mess != 'success';
                 const [pools, pricess, myBalance] = await Promise.all([getPools(), getPrice(), getMyBalance()]);
                 setMess('success');
-                if (isErr) {
-                    setLoading(false);
-                }
+                setLoading(false);
                 const obj = convertedObj(pools);
                 setData(obj);
                 const convertedBalances = myBalance.balances.reduce((pre, cur) => {
