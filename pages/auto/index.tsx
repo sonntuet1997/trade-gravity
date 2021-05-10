@@ -130,13 +130,13 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                 alert('Mua Atom không hết tiền trả gas!');
                 return null;
             }
-            if (profit < 10) return null;
+            if (profit < 50) return null;
             return transaction
         }).filter(Boolean).sort((a, b) => {
             if(a.endCoin2 && !b.endCoin2) return 1;
             else if (!a.endCoin2 && b.endCoin2) return -1;
             return b.profit - a.profit;
-        }).splice(0,2);
+        }).splice(0,12);
         if (!sendTransaction) return;
         setLog(sendTransaction.reduce((pre,cur) => pre + parseFloat(cur.profit),0));
         const tsx = sendTransaction.map(st => {

@@ -2,7 +2,7 @@ import {SwapFeeRate, UserAcceptRange} from "../const";
 import {cutNumber} from "../global-functions";
 
 const finishCoin = 'xrun'
-const allowRate = 0.195;
+const allowRate = 0.19;
 export const reserveAtom = 50;
 
 export const calBestAmount = (sfr, a, b, sr, rx, ry, fee, op) => {
@@ -80,24 +80,24 @@ export const getBestTrade = (graph, start, coin, gas, prices, preNode = '', calB
         if (preNode === '') {
             const bestValue: any = getBestTrade(graph, endCoin, expectedAmountEndCoin, gas, prices, start, false);
             const newProfit = bestValue.profit + profit;
-            if (newProfit > result.profit) {
-                result = {
-                    name: `${endCoin}___${bestValue.name}`,
-                    chain_info: oriV[endCoin].info,
-                    tradeCoin: `${tradeCoin}`,
-                    originValue,
-                    tradeCoin2: `${cutNumber(bestValue.tradeCoin, 5)}`,
-                    profit: newProfit,
-                    bestAmount: `${cutNumber(bestAmount, 5)}___${bestValue.bestAmount}`,
-                    PPI: `${cutNumber(PPI, 5)}___${bestValue.PPI}`,
-                    exEndCoin: cutNumber(expectedAmountEndCoin, 2),
-                    // conversionRate,
-                    profitRation: cutNumber(newProfit / originValue, 5).toString(),
-                    color: ((newProfit > 0) ? 'success' : 'warning'),
-                    ex: `${oriV[cur].rate}___${bestValue.ex}`,
-                    priceImpact: `${cutNumber(priceImpact, 5)}___${bestValue.priceImpact}`,
-                }
-            }
+            // if (newProfit > result.profit) {
+            //     result = {
+            //         name: `${endCoin}___${bestValue.name}`,
+            //         chain_info: oriV[endCoin].info,
+            //         tradeCoin: `${tradeCoin}`,
+            //         originValue,
+            //         tradeCoin2: `${cutNumber(bestValue.tradeCoin, 5)}`,
+            //         profit: newProfit,
+            //         bestAmount: `${cutNumber(bestAmount, 5)}___${bestValue.bestAmount}`,
+            //         PPI: `${cutNumber(PPI, 5)}___${bestValue.PPI}`,
+            //         exEndCoin: cutNumber(expectedAmountEndCoin, 2),
+            //         // conversionRate,
+            //         profitRation: cutNumber(newProfit / originValue, 5).toString(),
+            //         color: ((newProfit > 0) ? 'success' : 'warning'),
+            //         ex: `${oriV[cur].rate}___${bestValue.ex}`,
+            //         priceImpact: `${cutNumber(priceImpact, 5)}___${bestValue.priceImpact}`,
+            //     }
+            // }
         }
         if (result.profit > pre.profit) return result;
         return pre;

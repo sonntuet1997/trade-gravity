@@ -6,9 +6,8 @@ export function getMinimalDenomCoin(x) {
     }
 }
 export function cutNumber(number, digitsAfterDot) {
-    const str = `${number}`;
-    return parseFloat(str);
-    // return parseFloat(str.slice(0, str.indexOf('.') + digitsAfterDot + 1))
+    const str = `${number+ 0.0000000000000000000000001}`;
+    return parseFloat(str.slice(0, str.indexOf('.') + digitsAfterDot + 1))
 }
 
 export function getMyCoinBalance(coin, myBalance) {
