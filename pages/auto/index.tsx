@@ -60,25 +60,42 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
     const [totalValues, setTotalValues] = useState<any>(null);
     const [rank, setRank] = useState<any>(null);
     const [trig, setTrig] = useState<any>({});
+    const [i, setI] = useState<any>(null)
     const [poolInfo, setPoolInfo] = useState<any>(null);
     useEffect(() => {
         axios.get('https://competition.bharvest.io:1317/tendermint/liquidity/v1beta1/pools?pagination.limit=100')
             .then(x => {
-                setPoolInfo(x)
+                setPoolInfo(x);
+                setB({});
             })
     }, [])
-    useEffect(() => {
-        const i = setInterval(async () => {
-            setTrig({})
-        }, 10000);
-        return () => {
-            clearInterval(i);
-        }
-    }, []);
-
+    // useEffect(() => {
+    //     const i = setInterval(async () => {
+    //         setTrig({})
+    //     }, 10000);
+    //     return () => {
+    //         clearInterval(i);
+    //     }
+    // }, []);
+    const [b, setB] = useState({});
+    useEffect(()=>{
+        const k = setTimeout(()=>{
+            setTrig({});
+            // setB({});
+        }, 250);
+        setI((pre) => {
+          if(pre)  clearTimeout(pre);
+          return k;
+        })
+    }, [b]);
+    const sleep = (time = 1000) => {
+        setTimeout(()=>{
+            setB({});
+        }, time)
+    }
     useEffect(() => {
         (async () => {
-            if (!poolInfo) return;
+            if (!poolInfo) return sleep();
             try {
                 setMess('loading');
                 const [pools, pricess, myBalance]: any = await Promise.all([getPools(poolInfo), getPrice(), getMyBalance()]);
@@ -95,6 +112,7 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
                 sendTransaction(obj, pricess, convertedBalances);
             } catch (err) {
                 setMess(err.message);
+                sleep();
             }
         })().then(() => {
         })
@@ -123,9 +141,9 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             if (startCoin === 'uatom' && ((balance - tradeNumber + 10) < reserveAtom)) {
                 return null;
             }
-            if (endCoin2 && endCoin === 'uatom' && ((balance2 - tradeNumber + 10) < reserveAtom)) {
-                return null;
-            }
+            // if (endCoin2 && endCoin === 'uatom' && ((balance2 - tradeNumber + 10) < reserveAtom)) {
+            //     return null;
+            // }
             if (convertedBalances['uatom'] / 1000000 < 2 && endCoin != 'uatom') {
                 alert('Mua Atom không hết tiền trả gas!');
                 return null;
@@ -137,19 +155,22 @@ const Home: React.FC<{ t: TFunction }> = ({t}) => {
             else if (!a.endCoin2 && b.endCoin2) return -1;
             return b.profit - a.profit;
         }).splice(0,12);
-        if (!sendTransaction) return;
+        if (!sendTransaction) return sleep();
         setLog(sendTransaction.reduce((pre,cur) => pre + parseFloat(cur.profit),0));
         const tsx = sendTransaction.map(st => {
             return getTxs(st, data);
         }).reduce((prev, cur) => [...prev,...cur], [])
         console.log(tsx);
-        if (tsx.length === 0) return;
+        if (tsx.length === 0) return sleep();
         BroadcastLiquidityTx(tsx, {
                 type: 'Swap',
                 userAddress: MyAddress,
             },
             ({status, data}) => {
                 console.log(status, data);
+                if(status === 'txFail' || status === 'txSuccess'){
+                    sleep();
+                }
             });
     }
     const getTxs = (tx, data) => {
